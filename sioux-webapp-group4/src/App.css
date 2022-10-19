@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa&display=swap');
+*{
+  font-family: 'Comfortaa', cursive;
+}
+hr{
+  color: black;
+  width: 100%;
+}
+.top-panel{
+  background-color: #EF6937;
+  color: white;
+  height: 3em;
+  padding: 0.5em;
+}
+/*----------Navbar---------*/
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+li {
+  display: inline;
+  float: left;
+}
+a {
+  display: block;
+  padding: 8px;
+  text-decoration: none;
+  color: black;
+}
+/*--------Create meeting-------------*/
+.page-layout{
+  padding: 2%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.page-container{
+  display: flex;
+  width: 85%;
+  justify-content: center;
+  align-self: center;
+  flex-direction: column;
+}
+span{
+  display: flex;
+  justify-content: space-between;
+  column-gap: 4em;
+  align-items: center;
+}
+.form-create-meeting{
+  display: flex;
+  align-self: center;
+  flex-direction: column;
+  row-gap: 1em;
+  border: solid #d3d3d3 1px;
+  box-shadow: 1px 1px 25px #e2e2e2;
+  padding: 7% 13% 7% 13%;
+}
+.form-create-meeting input, select{
+  all: none;
+  background-color: #ecebeb;
+  border: none;
+  border-bottom: 3px solid rgb(139, 139, 139);
+  padding: 0.5em 1.5em 0.5em 1.5em;
+}
+.submit-btn{
+  all: none;
+  background-color: #EF6937;
+  color: white;
+  cursor: pointer;
+  border-radius: 50px;
+  padding: 1em;
+  width: 100px;
+  align-self: center;
+  font-weight: bold;
+  border: none;
+  box-shadow: 2px 2px 20px #f8c6b4;
+}
