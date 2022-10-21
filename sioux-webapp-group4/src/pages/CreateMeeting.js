@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
-
+import axios from "axios";
 export default function CreateMeeting() {
 
     const [meeting, setMeeting] = useState({});
@@ -14,6 +14,32 @@ export default function CreateMeeting() {
     //     // setMeeting(newMeeting);
     // }
 
+    //Post
+    function add(){ 
+     axios
+        .post("http://localhost:8080/appointment", JSON.stringify({
+            visitor: 
+            {
+                "firstName": meeting.firstName,
+                "lastName": meeting.lastName,
+                "email": meeting.email,
+                "phoneNumber": meeting.phone
+            }, 
+            employee: 
+            {
+                "firstName": meeting.employee,
+                "lastName": meeting.employee,
+                "email": ""
+            }, 
+            dateTime: meeting.date,
+            licensePlate: meeting.licensePlate,
+            comesByCar: meeting.byCar
+        }),{
+        headers: { 'Content-Type': 'application/json' } 
+        })
+    }
+    
+
     //musi byt tady
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -24,10 +50,20 @@ export default function CreateMeeting() {
     const handleClick = () => setChecked(!checked)
 
     const handleChange = (event) => {
-        const name = event.target.name;
-        const value = event.target.value;
-        setMeeting(values => ({ ...values, [name]: value }));
+        if(event.target.name === "byCar")
+        {
+            const name = event.target.name;
+            const value = event.target.checked;
+            setMeeting(values => ({ ...values, [name]: value }));
+        }
+        else
+        {
+            const name = event.target.name;
+            const value = event.target.value;
+            setMeeting(values => ({ ...values, [name]: value }));
+        }
     }
+
 
     return (
         <div>
@@ -37,7 +73,7 @@ export default function CreateMeeting() {
             <div className="page-layout">
                 <div className="page-container">
                     <Navbar />
-                    <form onSubmit={handleSubmit} className="form-create-meeting">
+                    <form onSubmit={add} className="form-create-meeting">
                         <span>Appointment with<input placeholder="Employee" type="text"
                             name="employee"
                             value={meeting.employee || ""}
@@ -64,7 +100,7 @@ export default function CreateMeeting() {
                             value={meeting.email || ""}
                             onChange={handleChange} /></span>
                         <span>By car<input type="checkbox" name="byCar"
-                            value={meeting.byCar || ""}
+                            value={meeting.byCar || checked}
                             onChange={handleChange} onClick={handleClick} checked={checked} />{checked && (<input placeholder="License plate" type="text" name="licensePlate"
                                 value={meeting.licensePlate || ""}
                                 onChange={handleChange} />)}</span>
@@ -72,7 +108,7 @@ export default function CreateMeeting() {
 
                         {/* useEffect method to search through */}
 
-                        <button className="submit-btn" type="submit">Submit</button>
+                        <button onclick = {add} className="submit-btn" type="submit">Submit</button>
                     </form>
                 </div>
             </div>
