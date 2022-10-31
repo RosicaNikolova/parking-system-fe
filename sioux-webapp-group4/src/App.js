@@ -3,6 +3,7 @@ import { Route, Routes,useParams,BrowserRouter as Router } from "react-router-do
 import CreateMeeting from './pages/CreateMeeting';
 import './App.css';
 import EditMeeting from './pages/EditMeeting';
+import TempOverviewMeeting from './pages/TempOverviewMeeting';
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
       <Routes> 
           <Route path="/" element={<CreateMeeting/>} />
           <Route path="/edit/:id" element={<Edit />} />
+          <Route path="/overview" element={<TempOverviewMeeting />} />
       </Routes>
     </Router>
   );

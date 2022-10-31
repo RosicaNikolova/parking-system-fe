@@ -86,7 +86,7 @@ export default function EditMeeting(props) {
                             onChange={handleChange} onClick={handleClick} checked={checked} />{checked && (<input placeholder={oldMeeting.licensePlate} type="text" name="licensePlate"
                                 value={editedMeeting.licensePlate || ""}
                                 onChange={handleChange} />)}</span> */}
-                        <button onClick={put} className="submit-btn" type="submit">Submit</button>
+                        <button className="submit-btn" type="submit">Submit</button>
                     </form>
                 </div>
             </div>
