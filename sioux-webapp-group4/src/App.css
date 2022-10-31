@@ -77,3 +77,28 @@ span{
   border: none;
   box-shadow: 2px 2px 20px #f8c6b4;
 }
+
+/*--------List of Meetings-------------*/
+
+.ListOfMeetings{
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+table {
+  border: 2px #EF6937;
+  width: 800px;
+  height: 200px;
+}
+
+th {
+  background-color: #EF6937;
+  color: #e2e2e2;
+}
+
+td {
+  text-align: center;
+}

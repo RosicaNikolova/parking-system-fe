@@ -6,7 +6,7 @@ export default function Navbar(props){
     const links = [
         {
             id: 1,
-            path: "/",
+            path: "overview",
             text: "Overview"
         },
         {
