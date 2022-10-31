@@ -17,6 +17,7 @@ export default function CreateMeeting() {
 
     //Post
     function add(){ 
+     alert("Request has been sent")   
      axios
         .post("http://localhost:8080/appointment", JSON.stringify({
             visitor: 

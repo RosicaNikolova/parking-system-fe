@@ -17,13 +17,16 @@ export default function TempOverviewMeeting()
       // empty dependency array means this effect will only run once (like componentDidMount in classes)
       }, []);
   
-    //   const handleRemove = 
-    //   (id) => 
-    //           {
-    //             ReservationService.deleteReservation(id).then(
-    //             setReservations(reservations.filter(item => item.id !== id))) 
-    //               console.log(reservations);
-    //           }
+      const handleRemove = 
+      (id) => 
+              {
+                axios.delete("http://localhost:8080/appointment/"+id,{
+                    headers: { 'Content-Type': 'application/json' } 
+                    }).then(
+                    setMeetings(meetings.filter(item => item.id !== id))) 
+                  //console.log(reservations);
+                alert("Deleted")
+              }
   
       return (
           <div className="AppointmentOverview">
@@ -50,14 +53,11 @@ export default function TempOverviewMeeting()
               <td>{item.dateTime}</td>
               {/* <td><button href={"/appointment/edit/" + item.id}>update</button></td> */}
               <td><a href={"/edit/" + item.id} target="_blank" rel="noreferrer">
-              <button>Click</button>
+              <button>Update</button>
               </a></td>
-              {/* <td><Button onClick= {() => <ReservationForm element={ReservationService.update} {...item.id}/>}>update</Button></td> */}
-              {/* <td><Button onClick= {() => handleRemove(item.id)} type="submit" value={item.id}> delete</Button></td> */}
-            </tr>)
-          }
-        <tr>
-      </tr>
+              { <td><button onClick= {() => handleRemove(item.id)} type="submit" value={item.id}> Delete</button></td> }
+              </tr>)
+        }
         </tbody>
       </table>
       </div>

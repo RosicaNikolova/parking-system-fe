@@ -37,7 +37,7 @@ export default function EditMeeting(props) {
 
     //Put
     function put() {
-        alert(JSON.stringify(editedMeeting)+" "+props.id);
+        alert("Request has been sent");
 
         axios
            .put("http://localhost:8080/appointment", JSON.stringify({
