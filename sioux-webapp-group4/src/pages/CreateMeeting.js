@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import axios from "axios";
+import EditMeeting from "./EditMeeting";
 export default function CreateMeeting() {
 
     const [meeting, setMeeting] = useState({});
@@ -111,7 +112,7 @@ export default function CreateMeeting() {
                         <button onclick = {add} className="submit-btn" type="submit">Submit</button>
                     </form>
                 </div>
-            </div>
+            </div> <EditMeeting />
         </div>
     )
 }
