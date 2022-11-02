@@ -1,7 +1,7 @@
 import {React} from 'react';
 import { Route, Routes,useParams,BrowserRouter as Router } from "react-router-dom";
 import CreateMeeting from './pages/CreateMeeting';
-import './App.css';
+import './components/App.css';
 import EditMeeting from './pages/EditMeeting';
 import TempOverviewMeeting from './pages/TempOverviewMeeting';
 import Overview from "./pages/Overview";

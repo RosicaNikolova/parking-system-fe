@@ -113,7 +113,7 @@ export default function CreateMeeting() {
                         <button onclick = {add} className="submit-btn" type="submit">Submit</button>
                     </form>
                 </div>
-            </div> <EditMeeting />
+            </div>
         </div>
     )
 }
