@@ -4,6 +4,7 @@ import CreateMeeting from './pages/CreateMeeting';
 import './App.css';
 import EditMeeting from './pages/EditMeeting';
 import TempOverviewMeeting from './pages/TempOverviewMeeting';
+import Overview from "./pages/Overview";
 
 function App() {
 
@@ -17,7 +18,8 @@ function App() {
       <Routes> 
           <Route path="/" element={<CreateMeeting/>} />
           <Route path="/edit/:id" element={<Edit />} />
-          <Route path="/overview" element={<TempOverviewMeeting />} />
+          <Route path="/overviewtest" element={<TempOverviewMeeting />} />
+          <Route path="/overview" element={<Overview />} />
       </Routes>
     </Router>
   );
