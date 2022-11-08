@@ -6,15 +6,15 @@ function Overview() {
     return (
         <div>
             <div className="top-panel">
-                <h3>WebApp</h3>
+                <h3>Meetings overview</h3>
             </div>
-            {/*<div className="page-layout">*/}
-            {/*    <div className="page-container">*/}
-            <Navbar />
-            <ListOfMeetings />
+            <div className="page-layout">
+                <div className="page-container">
+                    <Navbar />
+                    <ListOfMeetings />
+                </div>
+            </div>
         </div>
-        //     </div>
-        // </div>
     )
 }
 
