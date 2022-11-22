@@ -1,59 +1,122 @@
 import React, { useState, useEffect } from "react";
+import DatePicker from "react-datepicker";
+import { addDays } from 'date-fns';
+import moment from 'moment';
+import "react-datepicker/dist/react-datepicker.css";
 import Navbar from "../components/Navbar";
 import axios from "axios";
 
 export default function CreateMeeting() {
 
-    // with axious we get the meetings HERE!!!
-    const [initialMeetings, setInitialMeetings] = useState([
+    const [filters, setFilters] = useState([
         {
-            id:1,
-            dateTime: "2022-11-17T11:00",
-        },
-        {
-            id:2,
-            dateTime: "2022-11-15T11:30",
-        },
-        {
-            id:3,
-            dateTime: "2022-11-17T12:00",
-        },
-        {
-            id:4,
-            dateTime: "2022-11-20T12:30",
-        },
-        {
-            id:5,
-            dateTime: "2022-11-17T13:00",
+            id: 0
         }
     ]);
-    // here we store available filtered meetings, if we have method for this, we dont need initial meetings
+    const [availableTimeSlots, setAvailableTimeSlots] = useState([]);
+    //this needs to be replaced by get method
+    const initialMeetings = [
+        {
+            id: 1,
+            // dateTime: "2022-11-17T11:00",
+            dateTime: "2022-11-17",
+        },
+        {
+            id: 2,
+            // dateTime: "2022-11-15T11:30",
+            dateTime: "2022-11-15",
+        },
+        {
+            id: 3,
+            // dateTime: "2022-11-17T12:00",
+            dateTime: "2022-11-17",
+        },
+        {
+            id: 4,
+            // dateTime: "2022-11-21T12:30",
+            dateTime: "2022-11-21",
+        },
+        {
+            id: 5,
+            // dateTime: "2022-11-21T13:00",
+            dateTime: "2022-11-21",
+        },
+        {
+            id: 6,
+            // dateTime: "2022-12-21T13:00",
+            dateTime: "2022-12-21",
+        }
+    ];
+    const [startDate, setStartDate] = useState(new Date());
+    const [datesExpectedValues, setDatesExpectedValues] = useState([]);
+    let myArray = []; //here i store dates for calendar
+
+    useEffect(() => {
+        filterData();
+        //here should be the axios get method
+    }, [filters])
+
+    //Axios get timeslots
+    async function filterData() {
+        axios.get("http://localhost:8080/appointment/", {
+            params: {
+                id: filters.id,
+                year: filters.year,
+                month: filters.month,
+                day: filters.day
+            }
+        },
+            {
+                headers: { 'Content-Type': 'application/json' }
+            }).then(function (response) {
+                setAvailableTimeSlots(response.data.timeSlots);
+                // console.log(availableTimeSlots);
+                console.log(filters);
+            })
+    }
+
+    useEffect(() => {
+        convertToExpectedValues();
+    })
+
     const [availableMeetings, setAvailableMeetings] = useState(initialMeetings);
+
+    //this one converts retrieved dates to expected value so we can see them in calendar
+    const convertToExpectedValues = () => {
+        for (let day of initialMeetings) {
+            myArray.push(addDays(new Date(day.dateTime), 0))
+        }
+        return setDatesExpectedValues(myArray);
+    }
+
+    // here we store available dates
     const mockEmployees = [
         {
+            id: 1,
             firstName: "Jakub",
             lastName: "Jelinek",
             email: "jelinej2012@gmail.com"
         },
         {
+            id: 2,
             firstName: "John",
             lastName: "Doe",
             email: "johnDoe@gmail.com"
         },
         {
+            id: 3,
             firstName: "Emily",
             lastName: "Holy",
             email: "emilyHoly@gmail.com"
         },
     ]
-    // our main meeting -> this is sent to backend
     const [meeting, setMeeting] = useState({});
 
 
     //filters the meetings by date selected
     useEffect(() => {
         retrieveFilteredMeetings();
-    },[meeting.dateForFiltering]);
+    }, [meeting.dateForFiltering]);
 
     const retrieveFilteredMeetings = () => {
         const filtered = initialMeetings.filter(input =>
@@ -62,7 +125,7 @@ export default function CreateMeeting() {
         setAvailableMeetings(filtered);
     }
     //setAvailableMeetings will be used in axios getMeetingsByDate
-    
+
     const [employeesName, setEmployeesName] = useState("");
     const [employees, setEmployees] = useState(mockEmployees);
     const [checked, setChecked] = useState(false)
@@ -73,7 +136,7 @@ export default function CreateMeeting() {
         if (employeesName !== "") {
             document.getElementById("dropdown").style.display = "block";
             retrieveEmployeesWithSearchedLastName(employeesName);
-             //this one will list all the employees into dropdown
+            //this one will list all the employees into dropdown
         }
         else {
             document.getElementById("dropdown").style.display = "none";
@@ -81,10 +144,11 @@ export default function CreateMeeting() {
         }
     });
 
-    const pickAvailableMeeting = (availableMeeting) => {
-        setMeeting(meeting => ({ ...meeting, date: meeting.dateForFiltering+"T"+availableMeeting.dateTime.split('T')[1]}))
-
+    const pickAvailableMeeting = (availableTimeSlot) => {
+        console.log(availableTimeSlot);
+        setMeeting(meeting => ({ ...meeting, date: meeting.dateForFiltering + "T" + availableTimeSlot }))
     }
+    // availableMeeting.dateTime.split('T')[1]
 
     const textChangedName = e => {
         setEmployeesName(e.target.value);
@@ -100,12 +164,13 @@ export default function CreateMeeting() {
     };
 
     const selectEmployee = (employeeSearched) => {
-        setMeeting(meeting => ({ ...meeting, employeesEmail: employeeSearched.email, employeesFirstName: employeeSearched.firstName, employeesLastName: employeeSearched.lastName }))
+        setMeeting(meeting => ({ ...meeting, employeesEmail: employeeSearched.email, employeesFirstName: employeeSearched.firstName, employeesLastName: employeeSearched.lastName }));
+        setFilters(params => ({ ...params, id: employeeSearched.id })); //this stores the id of employee
     }
 
-    //Post
+    //Axios post
     function add() {
-         alert("Request has been sent")
+        alert("Request has been sent")
         // alert(JSON.stringify(meeting));
         axios
             .post("http://localhost:8080/appointment", JSON.stringify({
@@ -172,25 +237,31 @@ export default function CreateMeeting() {
                             })}
                         </div>
                         <span>Email<input type="text" disabled={true}
-                            value={meeting.employeesEmail}/></span>
-                        {/* after selecting above, it will show filtered available time slots with dateTime local format */}
-                        <span>Date<input type="date" name="dateForFiltering"
-                                value={meeting.dateForFiltering || ""}
-                                onChange={handleChange} /></span>
-                        <div className="available-meetings-container">{availableMeetings.map(
-                            availableMeeting => {
-                                return(
-                                    <div className="available-meeting" key={availableMeeting.id}>
-                                        <h2>{availableMeeting.dateTime.split('T')[1]}</h2>
-                                        <button className="submit-btn" onClick={() => pickAvailableMeeting(availableMeeting)}>Select</button>
-                                    </div> 
+                            value={meeting.employeesEmail} /></span>
+                        <span>Date
+                            <DatePicker
+                                inline
+                                type="date"
+                                dateFormat="yyyy/MM/dd"
+                                selected={startDate}
+                                highlightDates={datesExpectedValues}
+                                includeDates={datesExpectedValues}
+                                onChange={(date) => { setMeeting(values => ({ ...values, dateForFiltering: moment(date).format("YYYY-MM-DDTkk:mm").split('T')[0] })); setStartDate(date); setFilters(params => ({ ...params, year: moment(date).format("YYYY"), month: moment(date).format("MM"), day: moment(date).format("DD")}))}}
+                            />
+                        </span>
+                        <div className="available-meetings-container">{availableTimeSlots.map(
+                            (availableTimeSlot, j) => {
+                                return (
+                                    <div className="available-meeting" key={j}>
+                                        <h2>{availableTimeSlot}</h2>
+                                        <button className="submit-btn" onClick={() => pickAvailableMeeting(availableTimeSlot)}>Select</button>
+                                    </div>
                                 )
                             }
                         )}
                         </div>
                         <span>Selected date and time for meeting<input type="dateTime-local" value={meeting.date} disabled={true} /></span>
-                        {/* onSubmit={add} */}
-                        <form>  
+                        <form>
                             <div className="create-meeting-divider">
                                 <hr />
                                 <p> Visitor </p>
@@ -223,11 +294,16 @@ export default function CreateMeeting() {
 }
 
 
-// <span>Availability<select name="availability" value={meeting.availability} onChange={handleChange}>
-//                             <option value="9-10">9am-10am</option>
-//                             <option value="10-11">10am-11am</option>
-//                             <option value="11-12">11am-12pm</option>
-//                             {/* this value is taken 11-12 */}
-//                             <option value="12-13">12pm-13pm</option>
-//                         </select></span>
+//Datepicker
+// value={meeting.dateForFiltering || ""}
+                            // onChange={handleChangeDate} //NICEEEEEE this one!!!
+                        // excludeDates={[addDays(new Date('2022-11-20'), 0), addDays(new Date('2022-11-22'), 0)]}
+                        // placeholderText="This highlight two ranges with custom classes"
+                        //onChange={(date) => setStartDate(date)}
+
+/* after selecting above, it will show filtered available time slots with dateTime local format */
+/* <span>Date<input type="date" name="dateForFiltering"
+    value={meeting.dateForFiltering || ""}
+    onChange={handleChange} /></span> */
+
 

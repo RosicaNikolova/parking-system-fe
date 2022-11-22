@@ -3,6 +3,7 @@ import axios from "axios";
 import './App.css';
 
 function ListOfMeetings() {
+    
     const [meetings, setMeetings] = useState([]);
 
     useEffect(() => {
