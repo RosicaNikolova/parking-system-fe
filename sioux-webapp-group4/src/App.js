@@ -5,6 +5,7 @@ import './components/App.css';
 import EditMeeting from './pages/EditMeeting';
 import TempOverviewMeeting from './pages/TempOverviewMeeting';
 import Overview from "./pages/Overview";
+import AdminView from './pages/AdminView';
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
           <Route path="/edit/:id" element={<Edit />} />
           <Route path="/overviewtest" element={<TempOverviewMeeting />} />
           <Route path="/overview" element={<Overview />} />
+          <Route path="/admin" element={<AdminView />} />
       </Routes>
     </Router>
   );

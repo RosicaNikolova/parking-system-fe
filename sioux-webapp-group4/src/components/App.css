@@ -48,21 +48,83 @@ span{
   column-gap: 4em;
   align-items: center;
 }
-.form-create-meeting{
+.create-meeting{
   display: flex;
   align-self: center;
   flex-direction: column;
   row-gap: 1em;
   border: solid #d3d3d3 1px;
   box-shadow: 1px 1px 25px #e2e2e2;
-  padding: 7% 13% 7% 13%;
+  padding: 2.5% 13% 2.5% 13%;
 }
-.form-create-meeting input, select{
+.create-meeting input, select{
   all: none;
+  z-index: 1;
   background-color: #ecebeb;
   border: none;
   border-bottom: 3px solid rgb(139, 139, 139);
   padding: 0.5em 1.5em 0.5em 1.5em;
+}
+form{
+  display: flex;
+  flex-direction: column;
+  row-gap: 1em;
+}
+.create-meeting-divider{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.create-meeting-divider hr{
+  height: 0.01px;
+}
+.create-meeting-employee-dropdown{
+  z-index: 0;
+  margin-top: -1.6em;
+  padding: 0.5em 1.5em 0.5em 1.5em;
+  font-size: x-small;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1em;
+  max-height: 150px;
+  overflow: auto;
+  background-color: #f2e3de;
+  border-radius: 10px 5px 10px 10px;
+}
+.create-meeting-employee-dropdown-individual{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.create-meeting-employee-dropdown button{
+  font-size: xx-small;
+  width: auto;
+}
+.available-meetings-container{
+  display: flex;
+  align-items: center;
+  align-self: center;
+  /* flex-direction: row; */
+  column-gap: 1em;
+  overflow-y: auto;
+  max-width: 520px;
+  padding: 1em;
+  width: 100%;
+}
+.available-meeting{
+  background-color: #6cbac7;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  box-shadow: 2px 2px 5px #B8DED0;
+}
+.available-meeting .submit-btn{
+  font-size: xx-small;
+  padding: 1em;
 }
 .submit-btn{
   all: none;
@@ -80,12 +142,11 @@ span{
 
 /*--------List of Meetings-------------*/
 
-.ListOfMeetings{
-  width: 100%;
-  height: 100vh;
+.list-of-meetings{
+  padding: 2vh;
   display: flex;
   justify-content: center;
-  align-items: center;
+  /* align-items: center; */
 }
 
 table {
@@ -101,4 +162,5 @@ th {
 
 td {
   text-align: center;
+  padding: 1em;
 }
