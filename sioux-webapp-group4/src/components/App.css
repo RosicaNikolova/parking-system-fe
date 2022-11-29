@@ -164,3 +164,14 @@ td {
   text-align: center;
   padding: 1em;
 }
+
+/*--------Login-------------*/
+.logincard{
+  margin-top: 200px;
+  margin-left: 500px;
+  margin-right: 500px;
+  border-radius: 20px;
+  align-content: center;
+  align-items: center;
+
+}
