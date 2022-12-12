@@ -92,6 +92,7 @@ form{
   background-color: #f2e3de;
   border-radius: 10px 5px 10px 10px;
 }
+
 .create-meeting-employee-dropdown-individual{
   display: flex;
   flex-direction: row;
@@ -140,6 +141,24 @@ form{
   box-shadow: 2px 2px 20px #f8c6b4;
 }
 
+#err{
+  color: red;
+  font-size: x-small;
+  animation: 2s blink infinite;
+}
+
+@keyframes blink{
+  0%{
+    opacity: 0.3;
+  }
+  50%{
+    opacity: 1;
+  }
+  100%{
+    opacity: 0.3;
+  }
+}
+
 /*--------List of Meetings-------------*/
 
 .list-of-meetings{
@@ -164,7 +183,6 @@ td {
   text-align: center;
   padding: 1em;
 }
-
 /*--------Login-------------*/
 .logincard{
   margin-top: 200px;
