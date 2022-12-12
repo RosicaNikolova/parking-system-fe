@@ -1,7 +1,16 @@
 import React from 'react';
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import AuthenticationService from '../services/AuthenticationService';
 
 export default function Navbar(props){
+    let navigate = useNavigate();
+
+    const logout = ()=>{
+
+        AuthenticationService.logout();
+        console.log("logout");
+        navigate("/login");
+    }
     
     const links = [
         {
@@ -14,10 +23,13 @@ export default function Navbar(props){
             path: "/",
             text: "Create Meeting"}
     ]
+
+
     
     return (
         <nav>
         <ul>
+            {console.log("navigation renered")}
             {links.map(link => {
                 return (
                     <li key={link.id}>
@@ -27,7 +39,12 @@ export default function Navbar(props){
                     </li>
                 )
             })}
+
         </ul>
+        <div>
+        <button onClick={logout}>Logout</button>
+
+        </div>
     </nav>
     )
 }

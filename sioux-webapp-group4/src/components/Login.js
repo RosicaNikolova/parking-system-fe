@@ -1,12 +1,14 @@
-import React, { Component } from 'react'
+import React, { Component} from 'react'
 import "bootstrap/dist/css/bootstrap.min.css";
 export default class Login extends Component {
 
     render() {
+
+
         return (
             <section className="signup">
                 <section className="logincard">
-                    <form>
+                    <form >
                         <h3>Sign In</h3>
                         <div className="mb-3">
                             <label>Email address</label>
@@ -14,6 +16,8 @@ export default class Login extends Component {
                                 type="email"
                                 className="form-control"
                                 placeholder="Enter email"
+                                id="email"
+                         
                             />
                         </div>
                         <div className="mb-3">
@@ -22,6 +26,9 @@ export default class Login extends Component {
                                 type="password"
                                 className="form-control"
                                 placeholder="Enter password"
+                                id="password"
+                        
+                             
                             />
                         </div>
 
