@@ -6,9 +6,11 @@ import "react-datepicker/dist/react-datepicker.css";
 import Navbar from "../components/Navbar";
 import axios from "axios";
 import validation from '../Validation';
+import { useNavigate } from "react-router-dom";
 
 export default function CreateMeeting() {
 
+    let navigate = useNavigate();
     const [filters, setFilters] = useState({});
     const [availableTimeSlots, setAvailableTimeSlots] = useState([]);
 
@@ -51,7 +53,6 @@ export default function CreateMeeting() {
 
     useEffect(() => {
         filterData();
-        //here should be the axios get method
     }, [filters])
 
     //Axios get timeslots
@@ -151,8 +152,8 @@ export default function CreateMeeting() {
 
     useEffect(()=>{
         // setErrors(validation(meeting, checked));
-        setErrors(validation(meeting, checked));
-    },[meeting.email, meeting.licensePlate, checked, meeting.phone]);
+        setErrors(validation(meeting));
+    },[meeting.email, meeting.phone]);
 
     useEffect(()=>{
         for (const value in errors) {
@@ -174,7 +175,9 @@ export default function CreateMeeting() {
         if(passing){
             add();
             alert(JSON.stringify(meeting));
+            console.log(filters);
             alert("Submitted successfully");
+            navigate("/overview"); //added
         }
         else{
             alert("Data are not in the right format!");
@@ -182,10 +185,9 @@ export default function CreateMeeting() {
     }
 
     function add() {
-        // alert("Request has been sent")
         axios
-            .post("http://localhost:8080/appointment", JSON.stringify({
-                visitor:
+            .post("http://localhost:8080/appointment", JSON.stringify({    
+            visitor:
                 {
                     "firstName": meeting.firstName,
                     "lastName": meeting.lastName,
@@ -194,6 +196,7 @@ export default function CreateMeeting() {
                 },
                 employee:
                 {
+                    "id": filters.id,
                     "firstName": meeting.employeesFirstName,
                     "lastName": meeting.employeesLastName,
                     "email": meeting.employeesEmail //probably we use useEffect for searching for employees email by his last name

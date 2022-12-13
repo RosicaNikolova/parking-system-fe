@@ -1,4 +1,4 @@
-export default function Validation(values, checked) {
+export default function Validation(values) {
     let error = {}
     const email_pattern = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/
     const licensePlate_pattern = /(\w{2}-\d{2}-\d{2})|(\d{2}-\d{2}-\w{2})|(\d{2}-\w{2}-\d{2})|(\w{2}-\d{2}-\w{2})|(\w{2}-\w{2}-\d{2})|(\d{2}-\w{2}-\w{2})|(\d{2}-\w{3}-\d{1})|(\d{1}-\w{3}-\d{2})|(\w{2}-\d{3}-\w{1})|(\w{1}-\d{3}-\w{2})|(\w{3}-\d{2}-\w{1})|(\d{1}-\w{2}-\d{3})/
@@ -18,16 +18,16 @@ export default function Validation(values, checked) {
         error.phoneNumber = "";
 
     }
-    if (checked) {
-        if (!licensePlate_pattern.test(values.licensePlate)) {
-            error.licensePlate = "Wrong format of license plate";
-        }
-        else {
-            error.licensePlate = "";
-        }
-    } else {
-        error.licensePlate = "";
-    }
+    // if (checked) {
+    //     if (!licensePlate_pattern.test(values.licensePlate)) {
+    //         error.licensePlate = "Wrong format of license plate";
+    //     }
+    //     else {
+    //         error.licensePlate = "";
+    //     }
+    // } else {
+    //     error.licensePlate = "";
+    // }
 
     return error;
 }

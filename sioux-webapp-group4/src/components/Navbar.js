@@ -20,7 +20,7 @@ export default function Navbar(props){
         },
         {
         id: 2,
-            path: "/",
+            path: "/createmeeting",
             text: "Create Meeting"}
     ]
 
@@ -29,7 +29,6 @@ export default function Navbar(props){
     return (
         <nav>
         <ul>
-            {console.log("navigation renered")}
             {links.map(link => {
                 return (
                     <li key={link.id}>

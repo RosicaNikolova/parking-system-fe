@@ -3,6 +3,7 @@ import Navbar from "../components/Navbar";
 import DatePicker from "react-datepicker";
 import { addDays } from 'date-fns';
 import moment from 'moment';
+import { useNavigate } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
 
 import axios from "axios";
@@ -10,12 +11,18 @@ import axios from "axios";
 export default function EditMeeting(props) {
 
     // these are parameters for get method -> timeslots!
-    const [filters, setFilters] = useState([
-        {
-            id: 1
-        }
-    ]);
+    const [filters, setFilters] = useState([]);
     const [availableTimeSlots, setAvailableTimeSlots] = useState([]);
+    let navigate = useNavigate();
+    const [oldMeeting, setOldMeeting] = useState(
+        {
+            id: props.id,
+            // comesByCar: props.comesByCar,
+            dateTime: props.dateTime,
+            // licensePlate: props.licensePlate
+        }
+    );
+    const [editedMeeting, setEditedMeeting] = useState(oldMeeting);
     //this needs to be replaced by get method
     const initialMeetings = [
         {
@@ -43,6 +50,8 @@ export default function EditMeeting(props) {
             dateTime: "2022-12-21",
         }
     ];
+    const [availableMeetings, setAvailableMeetings] = useState(initialMeetings);
+
     const [datesExpectedValues, setDatesExpectedValues] = useState([]);
     let myArray = []; //here i store dates for calendar
 
@@ -67,7 +76,7 @@ export default function EditMeeting(props) {
     async function filterData() {
         axios.get("http://localhost:8080/appointment/", {
             params: {
-                id: 1,
+                id: oldMeeting.employee_id, //employee id
                 year: filters.year,
                 month: filters.month,
                 day: filters.day
@@ -81,18 +90,8 @@ export default function EditMeeting(props) {
             })
     }
 
-    const [availableMeetings, setAvailableMeetings] = useState(initialMeetings);
-
-    const [oldMeeting, setOldMeeting] = useState(
-        {
-            id: props.id,
-            comesByCar: props.comesByCar,
-            dateTime: props.dateTime,
-            licensePlate: props.licensePlate
-        }
-    );
-    const [editedMeeting, setEditedMeeting] = useState(oldMeeting);
-    const [checked, setChecked] = useState(oldMeeting.comesByCar);
+    
+    // const [checked, setChecked] = useState(oldMeeting.comesByCar);
 
     // filteres availabale meetings
     useEffect(() => {
@@ -113,7 +112,7 @@ export default function EditMeeting(props) {
         setEditedMeeting(meeting => ({ ...meeting, dateTime: editedMeeting.dateForFiltering + "T" + availableTimeSlot }))
     }
 
-    const handleClick = () => setChecked(!checked);
+    // const handleClick = () => setChecked(!checked);
 
     //----------------AXIOS----------------
     //Get
@@ -133,26 +132,31 @@ export default function EditMeeting(props) {
             .put("http://localhost:8080/appointment", JSON.stringify({
                 id: props.id,
                 dateTime: editedMeeting.dateTime,
-                comesByCar: editedMeeting.comesByCar, //is not in backend
-                licensePlate: editedMeeting.licensePlate //is not in backend
+                // comesByCar: editedMeeting.comesByCar, //is not in backend
+                // licensePlate: editedMeeting.licensePlate //is not in backend
             }), {
                 headers: { 'Content-Type': 'application/json' }
             })
+        navigate("/overview");
     }
     //--------------end of axios (2methods) ----------------------
+
     const [startDate, setStartDate] = useState(oldMeeting.dateTime);
-    const handleChange = (event) => {
-        if (event.target.name === "comesByCar") {
-            const name = event.target.name;
-            const value = event.target.checked;
-            setEditedMeeting(values => ({ ...values, [name]: value }));
-        }
-        else {
-            const name = event.target.name;
-            const value = event.target.value;
-            setEditedMeeting(values => ({ ...values, [name]: value }));
-        }
-    }
+    // const handleChange = (event) => {
+    //     // if (event.target.name === "comesByCar") {
+    //     //     const name = event.target.name;
+    //     //     const value = event.target.checked;
+    //     //     setEditedMeeting(values => ({ ...values, [name]: value }));
+    //     // }
+    //     // else {
+    //     //     const name = event.target.name;
+    //     //     const value = event.target.value;
+    //     //     setEditedMeeting(values => ({ ...values, [name]: value }));
+    //     // }
+    //     const name = event.target.name;
+    //     const value = event.target.value;
+    //     setEditedMeeting(values => ({ ...values, [name]: value }));
+    // }
     return (
         <div>
             <div className="top-panel">
@@ -184,52 +188,14 @@ export default function EditMeeting(props) {
                             }
                         )}
                         </div>
-                        {/* <span>Date<input type="date" name="dateForFiltering"
-                            value={editedMeeting.dateForFiltering || ""}
-                            onChange={handleChange} /></span>
-                        <div className="available-meetings-container">{availableMeetings.map(
-                            availableMeeting => {
-                                return (
-                                    <div className="available-meeting" key={availableMeeting.id}>
-                                        <h2>{availableMeeting.dateTime.split('T')[1]}</h2>
-                                        <button className="submit-btn" onClick={() => pickAvailableMeeting(availableMeeting)}>Select</button>
-                                    </div>
-                                )
-                            }
-                        )} 
-                        </div>*/}
+                        
                         <span>Selected date and time for meeting<input type="dateTime-local" value={editedMeeting.dateTime} disabled={true} /></span>
                         <form onSubmit={put}>
-                            {/* <span>Appointment with<input placeholder={oldMeeting.employee} type="text"
-                            name="employee"
-                            value={editedMeeting.employee || ""}
-                            onChange={handleChange} /></span> */}
-                            {/* <span>Date<input type="datetime-local" name="dateTime" placeholder={oldMeeting.dateTime}
-                            value={editedMeeting.dateTime || oldMeeting.dateTime}
-                            onChange={handleChange} /></span> */}
-                            {/* <span>Availability<select name="availability" value={editedMeeting.availability || ""} onChange={handleChange}>
-                            <option value="9-10">9am-10am</option>
-                            <option value="10-11">10am-11am</option>
-                            <option value="11-12">11am-12pm</option>
-                            <option value="12-13">12pm-13pm</option>
-                        </select></span> */}
-                            {/* <span>First name<input placeholder={oldMeeting.firstName} type="text" name="firstName"
-                            value={editedMeeting.firstName || ""}
-                            onChange={handleChange} /></span>
-                        <span>Last name<input placeholder={oldMeeting.lastName} type="text" name="lastName"
-                            value={editedMeeting.lastName || ""}
-                            onChange={handleChange} /></span>
-                        <span>Phone number<input placeholder={oldMeeting.phoneNumber} type="text" name="phoneNumber"
-                            value={editedMeeting.phoneNumber || ""}
-                            onChange={handleChange} /></span>
-                        <span>Email<input placeholder={oldMeeting.email} type="text" name="email"
-                            value={editedMeeting.email || ""}
-                            onChange={handleChange} /></span>*/}
-                            <span>By car<input type="checkbox" name="comesByCar"
+                            {/* <span>By car<input type="checkbox" name="comesByCar"
                                 value={editedMeeting.comesByCar || checked}
                                 onChange={handleChange} onClick={handleClick} checked={checked} />{checked && (<input placeholder={oldMeeting.licensePlate} type="text" name="licensePlate"
                                     value={editedMeeting.licensePlate || ""}
-                                    onChange={handleChange} />)}</span>
+                                    onChange={handleChange} />)}</span> */}
                             <button className="submit-btn" type="submit">Submit</button>
                         </form>
                     </div>

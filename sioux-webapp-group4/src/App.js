@@ -6,6 +6,7 @@ import TempOverviewMeeting from './pages/TempOverviewMeeting';
 import Overview from "./pages/Overview";
 import AdminView from './pages/AdminView';
 import LoginPage from "./pages/LoginPage";
+import CreateMeeting from "./pages/CreateMeeting";
 
 function App() {
 
@@ -23,6 +24,7 @@ function App() {
           <Route path="/overview" element={<Overview />} />
           <Route path="/admin" element={<AdminView />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/createmeeting" element={<CreateMeeting />}/>
       </Routes>
     </Router>
   );

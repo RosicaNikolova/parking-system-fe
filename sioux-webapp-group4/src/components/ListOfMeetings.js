@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import './App.css';
 
 function ListOfMeetings() {
     
     const [meetings, setMeetings] = useState([]);
-
+    let navigate = useNavigate();
     useEffect(() => {
         // GET request using axios inside useEffect React hook
         axios.get("http://localhost:8080/appointment/appointments", {
@@ -13,10 +14,13 @@ function ListOfMeetings() {
         }).then((response) => {
             setMeetings(response.data.appointmentList)
             console.log(response.data.appointmentList)
-            //console.log(response.data.reservationList)
         });
         // empty dependency array means this effect will only run once (like componentDidMount in classes)
     }, []);
+
+    const openUpdate = (id) => {
+        navigate(`/edit/${id}`);
+    }
 
     const handleRemove =
         (id) => {
@@ -24,7 +28,6 @@ function ListOfMeetings() {
                 headers: { 'Content-Type': 'application/json' }
             }).then(
                 setMeetings(meetings.filter(item => item.id !== id)))
-            //console.log(reservations);
             alert("Deleted")
         }
 
@@ -53,10 +56,9 @@ function ListOfMeetings() {
                                 <td>{item.emailVisitor}</td>
                                 <td>{JSON.stringify(item.comesByCar)}</td>
                                 <td>{item.dateTime}</td>
-                                {/* <td><button href={"/appointment/edit/" + item.id}>update</button></td> */}
-                                <td><a href={"/edit/" + item.id} target="_blank" rel="noreferrer">
-                                    <button>Update</button>
-                                </a></td>
+                                <td>
+                                    <button onClick={() => openUpdate(item.id)}>Update</button>
+                                </td>
                                 {<td><button onClick={() => handleRemove(item.id)} type="submit" value={item.id}> Delete</button></td>}
                             </tr>
                         )
