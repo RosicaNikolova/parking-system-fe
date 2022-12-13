@@ -1,7 +1,6 @@
 import React from 'react';
 import { NavLink, useNavigate } from "react-router-dom";
 import AuthenticationService from '../services/AuthenticationService';
-
 export default function Navbar(props){
     let navigate = useNavigate();
 

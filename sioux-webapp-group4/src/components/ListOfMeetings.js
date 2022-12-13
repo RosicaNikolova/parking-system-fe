@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import './App.css';
+import BaseUrl from "../services/BaseUrl";
 
 function ListOfMeetings() {
     
@@ -9,7 +10,7 @@ function ListOfMeetings() {
     let navigate = useNavigate();
     useEffect(() => {
         // GET request using axios inside useEffect React hook
-        axios.get("http://localhost:8080/appointment/appointments", {
+        axios.get(BaseUrl.baseUrl+"/appointment/appointments", {
             headers: { 'Content-Type': 'application/json' }
         }).then((response) => {
             setMeetings(response.data.appointmentList)
@@ -24,7 +25,7 @@ function ListOfMeetings() {
 
     const handleRemove =
         (id) => {
-            axios.delete("http://localhost:8080/appointment/" + id, {
+            axios.delete(BaseUrl.baseUrl+"/appointment/" + id, {
                 headers: { 'Content-Type': 'application/json' }
             }).then(
                 setMeetings(meetings.filter(item => item.id !== id)))

@@ -1,12 +1,14 @@
 import React, {useState, useEffect} from "react";
 import axios from "axios";
+import BaseUrl from "../services/BaseUrl";
+
 export default function TempOverviewMeeting()
 {
     const [meetings, setMeetings] = useState([]);
   
       useEffect(() => {
           // GET request using axios inside useEffect React hook
-          axios.get("http://localhost:8080/appointment/appointments",{
+          axios.get(BaseUrl.baseUrl+"/appointment/appointments",{
             headers: { 'Content-Type': 'application/json' } 
             }).then((response) => {
                 setMeetings(response.data.appointmentList)
@@ -19,7 +21,7 @@ export default function TempOverviewMeeting()
       const handleRemove = 
       (id) => 
               {
-                axios.delete("http://localhost:8080/appointment/"+id,{
+                axios.delete(BaseUrl.baseUrl+"/appointment/"+id,{
                     headers: { 'Content-Type': 'application/json' } 
                     }).then(
                     setMeetings(meetings.filter(item => item.id !== id))) 

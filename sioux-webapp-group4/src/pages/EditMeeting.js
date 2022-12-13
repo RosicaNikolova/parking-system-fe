@@ -5,7 +5,7 @@ import { addDays } from 'date-fns';
 import moment from 'moment';
 import { useNavigate } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
-
+import BaseUrl from "../services/BaseUrl";
 import axios from "axios";
 
 export default function EditMeeting(props) {
@@ -75,7 +75,7 @@ export default function EditMeeting(props) {
 
     //Axios get timeslots
     async function filterData() {
-        axios.get("http://localhost:8080/appointment/", {
+        axios.get(BaseUrl.baseUrl+"/appointment/", {
             params: {
                 id: oldMeeting.employee_id, //employee id
                 year: filters.year,
@@ -118,7 +118,7 @@ export default function EditMeeting(props) {
     //----------------AXIOS----------------
     //Get
     useEffect(() => {
-        axios.get("http://localhost:8080/appointment/" + props.id, {
+        axios.get(BaseUrl.baseUrl+"/appointment/" + props.id, {
             headers: { 'Content-Type': 'application/json' }
         }).then((response) => {
             setOldMeeting(response.data)
@@ -131,7 +131,7 @@ export default function EditMeeting(props) {
         alert("Request has been sent");
         alert(JSON.stringify(editedMeeting));
         axios
-            .put("http://localhost:8080/appointment", JSON.stringify({
+            .put(BaseUrl.baseUrl+"/appointment", JSON.stringify({
                 id: props.id,
                 dateTime: editedMeeting.dateTime,
                 comesByCar: editedMeeting.comesByCar, //is not in backend

@@ -7,6 +7,7 @@ import Navbar from "../components/Navbar";
 import axios from "axios";
 import validation from '../Validation';
 import { useNavigate } from "react-router-dom";
+import BaseUrl from "../services/BaseUrl";
 
 export default function CreateMeeting() {
 
@@ -57,7 +58,7 @@ export default function CreateMeeting() {
 
     //Axios get timeslots
     async function filterData() {
-        axios.get("http://localhost:8080/appointment/", {
+        axios.get(BaseUrl.baseUrl+"/appointment/", {
             params: {
                 id: filters.id, //employeeID!!
                 year: filters.year,
@@ -133,7 +134,7 @@ export default function CreateMeeting() {
 
     async function getEmployeesByLastName(employeesName) {
         axios
-            .get("http://localhost:8080/appointment/employees/" + employeesName, {
+            .get(BaseUrl.baseUrl+"/appointment/employees/" + employeesName, {
                 headers: { 'Content-Type': 'application/json' }
             }).then(function (response) {
                 setEmployees(response.data.employeeDTOList);
@@ -186,7 +187,7 @@ export default function CreateMeeting() {
 
     function add() {
         axios
-            .post("http://localhost:8080/appointment", JSON.stringify({    
+            .post(BaseUrl.baseUrl+"/appointment", JSON.stringify({    
             visitor:
                 {
                     "firstName": meeting.firstName,
