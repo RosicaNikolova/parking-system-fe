@@ -14,14 +14,15 @@ export default function EditMeeting(props) {
     const [filters, setFilters] = useState([]);
     const [availableTimeSlots, setAvailableTimeSlots] = useState([]);
     let navigate = useNavigate();
+    
     const [oldMeeting, setOldMeeting] = useState(
         {
             id: props.id,
-            // comesByCar: props.comesByCar,
-            dateTime: props.dateTime,
-            // licensePlate: props.licensePlate
+            dateTime: "",
         }
     );
+    
+
     const [editedMeeting, setEditedMeeting] = useState(oldMeeting);
     //this needs to be replaced by get method
     const initialMeetings = [
@@ -128,12 +129,13 @@ export default function EditMeeting(props) {
     //Put
     function put() {
         alert("Request has been sent");
+        alert(JSON.stringify(editedMeeting));
         axios
             .put("http://localhost:8080/appointment", JSON.stringify({
                 id: props.id,
                 dateTime: editedMeeting.dateTime,
-                // comesByCar: editedMeeting.comesByCar, //is not in backend
-                // licensePlate: editedMeeting.licensePlate //is not in backend
+                comesByCar: editedMeeting.comesByCar, //is not in backend
+                licensePlate: editedMeeting.licensePlate //is not in backend
             }), {
                 headers: { 'Content-Type': 'application/json' }
             })
