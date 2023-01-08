@@ -7,6 +7,8 @@ import Overview from "./pages/Overview";
 import AdminView from './pages/AdminView';
 import LoginPage from "./pages/LoginPage";
 import CreateMeeting from "./pages/CreateMeeting";
+import UploadEmployees from './pages/UploadEmployees';
+import CreateEmployee from './pages/CreateEmployee';
 
 function App() {
 
@@ -25,6 +27,10 @@ function App() {
           <Route path="/admin" element={<AdminView />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/createmeeting" element={<CreateMeeting />}/>
+          <Route path="/uploademployees" element={<UploadEmployees />}/>
+          <Route path="/createemployee" element={<CreateEmployee />}/>
+
+
       </Routes>
     </Router>
   );

@@ -224,13 +224,13 @@ export default function CreateMeeting() {
 
     return (
         <div>
-            <div className="top-panel">
-                <h3>WebApp</h3>
-            </div>
             <div className="page-layout">
+            <Navbar />
                 <div className="page-container">
-                    <Navbar />
-                    <div className="create-meeting">
+                <h2>Secretary</h2> 
+                <div className="overview">
+                <h3>Create appointment</h3>   
+                <div className="create-meeting">
                         <div className="create-meeting-divider">
                             <hr />
                             <p> Employee </p>
@@ -332,9 +332,11 @@ export default function CreateMeeting() {
                                 onChange={handleChange} onClick={handleClick} checked={checked} />{checked && (<input placeholder="License plate" type="text" name="licensePlate"
                                     value={meeting.licensePlate || ""}
                                     onChange={handleChange} />)}</span>{errors.licensePlate && <span id="err">{errors.licensePlate}</span>}
-                            <button onClick={e => handleSubmit(e)} className="submit-btn" type="submit">Submit</button>
+                            <button onClick={e => handleSubmit(e)} type="submit">Submit</button>
                         </form>
                     </div>
+                </div>
+                    
                 </div>
             </div>
         </div>
