@@ -1,17 +1,18 @@
 import api from './http-common';
+import jwt from 'jwt-decode';
 
  const login = (user) => {
         return api.post(`/login`, user)
            .then((response) => {
              if(response.data.accessToken){
-                 localStorage.setItem("user", JSON.stringify(response.data));
+                 localStorage.setItem("user", JSON.stringify(response.data.accessToken));
              }
              return response.data;
            });
    };
 
 const logout = () => {
-    localStorage.removeItem("user");
+    localStorage.clear();
 }
 
 const register = (data) =>{
@@ -19,15 +20,23 @@ const register = (data) =>{
 }
 
 const getCurrentUser = () => {
-    return JSON.parse(localStorage.getItem('user'));
-
+    return localStorage.getItem('user');
 }
+
+const getRoles = () =>
+{
+    const user = jwt(localStorage.getItem("user"));
+    console.log(user.roles)
+    return user.roles;
+}
+
 
 const AuthenticationService = {
     login,
     logout,
     register,
-    getCurrentUser
+    getCurrentUser,
+    getRoles
   };
 
   export default AuthenticationService;
