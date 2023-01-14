@@ -24,6 +24,11 @@ export default function Navbar(props) {
             id: 2,
             path: "/createmeeting",
             text: "Create meeting"
+        },
+        {
+            id:3,
+            path:"/employees",
+            text:"Employees"
         }
     ]
 

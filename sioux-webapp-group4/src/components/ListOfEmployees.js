@@ -8,11 +8,11 @@ function ListOfEmployees(props) {
     const [employees, setEmployees] = useState([]);
     useEffect(() => {
         // GET request using axios inside useEffect React hook
-        axios.get("http://localhost:8080/employees", {
+        axios.get("http://localhost:8080/employee", {
             headers: { 'Content-Type': 'application/json' }
         }).then((response) => {
-            setEmployees(response.data.employeesList)
-            console.log(response.data.employeesList)
+            setEmployees(response.data)
+            console.log(response.data)
         });
         // empty dependency array means this effect will only run once (like componentDidMount in classes)
     }, []);
