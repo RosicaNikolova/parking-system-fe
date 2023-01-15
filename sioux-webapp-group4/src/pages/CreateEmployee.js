@@ -5,9 +5,15 @@ import axios from "axios";
 import validation from '../Validation';
 import { useNavigate } from "react-router-dom";
 
+const url = 'http://localhost:8080/employee';
+
+
 export default function CreateEmployee() {
     const [employee, setEmployee] = useState({});
     let navigate = useNavigate();
+    const [firstname, setFirstname] = useState('');
+    const [lastname, s] = useState('');
+
     const [errors, setErrors] = useState("");
     const [passing, setPassing] = useState(true);
 
@@ -28,18 +34,31 @@ export default function CreateEmployee() {
     }, [errors])
 
     //Axios post
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(JSON.stringify(errors));
-        if (passing) {
-            add();
-            alert(JSON.stringify(employee));
-            alert("Submitted successfully");
-            navigate("/overview"); //added
+
+        try {
+            const resp = await axios.post(url, {
+                firstName: employee.firstName,
+                lastName: employee.lastName,
+                email: employee.email,
+            });
+            console.log(resp.data);
+            navigate("/overview");
+        } catch (error) {
+            console.log(error.response);
         }
-        else {
-            alert("Data are not in the right format!");
-        }
+
+        // console.log(JSON.stringify(errors));
+        // if (passing) {
+        //     add();
+        //     alert(JSON.stringify(employee));
+        //     alert("Submitted successfully");
+        //     navigate("/overview"); //added
+        // }
+        // else {
+        //     alert("Data are not in the right format!");
+        // }
     }
 
     const options = [
@@ -57,17 +76,18 @@ export default function CreateEmployee() {
         },
     ];
 
-    function add() {
-        alert("HAHAA");
-        // axios
-        //     .post("http://localhost:8080/employee", JSON.stringify({    
-        //             "firstName": meeting.employeesFirstName,
-        //             "lastName": meeting.employeesLastName,
-        //             "email": meeting.employeesEmail //probably we use useEffect for searching for employees email by his last name
-        //         }, {
-        //         headers: { 'Content-Type': 'application/json' }
-        //     })
-    }
+    // function add() {
+    //     // alert("HAHAA");
+    //
+    //     // axios
+    //          .post("http://localhost:8080/employee", JSON.stringify({
+    //                  "firstName": meeting.employeesFirstName,
+    //                  "lastName": meeting.employeesLastName,
+    //                  "email": meeting.employeesEmail //probably we use useEffect for searching for employees email by his last name
+    //              }, {
+    //              headers: { 'Content-Type': 'application/json' }
+    //          })
+    // }
 
     const handleChange = (event) => {
         const name = event.target.name;
