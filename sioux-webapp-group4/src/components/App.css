@@ -1,6 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Comfortaa&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
 *{
-  font-family: 'Comfortaa', cursive;
+  font-family: 'Poppins', sans-serif;
+  /* background-color: white; */
+  color: black;
+}
+html {
+  height: 100%;
+  background-color: white;
+}
+body {
+  min-height: 100%;
 }
 hr{
   color: black;
@@ -12,35 +21,57 @@ hr{
   height: 3em;
   padding: 0.5em;
 }
+button{
+  all: unset;
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 5px 1em 5px 1em;
+  align-self: center;
+  border: 1px solid black;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
 /*----------Navbar---------*/
+nav{
+  width: 20%;
+}
+#logo{
+  object-fit: scale-down;
+  width: 15vw;
+  height: auto;
+}
 ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
 }
-li {
-  display: inline;
-  float: left;
-}
 a {
   display: block;
   padding: 8px;
   text-decoration: none;
-  color: black;
+}
+.logout{
+  all: unset;
+  padding: 8px;
+
 }
 /*--------Create meeting-------------*/
 .page-layout{
-  padding: 2%;
   display: flex;
-  justify-content: center;
-  flex-direction: column;
+  flex-direction: row;
 }
 .page-container{
+  padding: 0.5em;
   display: flex;
-  width: 85%;
-  justify-content: center;
-  align-self: center;
+  width: 80%;
+  min-height: 100vh;
   flex-direction: column;
+  background-color: rgb(221, 221, 221);
+}
+.page-container h2{
+  background-color: rgb(221, 221, 221);
+
 }
 span{
   display: flex;
@@ -53,8 +84,6 @@ span{
   align-self: center;
   flex-direction: column;
   row-gap: 1em;
-  border: solid #d3d3d3 1px;
-  box-shadow: 1px 1px 25px #e2e2e2;
   padding: 2.5% 13% 2.5% 13%;
 }
 .create-meeting input, select{
@@ -127,20 +156,6 @@ form{
   font-size: xx-small;
   padding: 1em;
 }
-.submit-btn{
-  all: none;
-  background-color: #EF6937;
-  color: white;
-  cursor: pointer;
-  border-radius: 50px;
-  padding: 1em;
-  width: 100px;
-  align-self: center;
-  font-weight: bold;
-  border: none;
-  box-shadow: 2px 2px 20px #f8c6b4;
-}
-
 #err{
   color: red;
   font-size: x-small;
@@ -159,36 +174,108 @@ form{
   }
 }
 
-/*--------List of Meetings-------------*/
+/*--------List of Meetings/Overview-------------*/
+.search{
+  all: unset;
+  margin: 0 2% 1em 0;
+  align-self:flex-end;
+  padding: 0.5em;
+  background-color: white;
+  width: 15vw;
+  color: gray;
+  border-radius: 50px;
+  border: 1px solid black;
+}
+.overview{
+  padding: 2em;
+  border-radius: 5px;
+  width: 90%;
+  align-self: center;
+  background-color: white;
+}
+.overview-nav{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 
-.list-of-meetings{
+}
+.overview-nav-buttons{
+  display: flex;
+  flex-direction: row;
+  column-gap: 1em;
+}
+#create{
+  align-self: flex-end;
+}
+#remove{
+  border: 1px solid red;
+  color: red;
+}
+#upload-btn{
+  align-self: flex-end;
+}
+
+.list{
   padding: 2vh;
   display: flex;
-  justify-content: center;
-  /* align-items: center; */
 }
 
 table {
-  border: 2px #EF6937;
-  width: 800px;
-  height: 200px;
+  border-collapse: collapse;
+  font-size: 0.8vw;
+  width: 100%;
 }
 
 th {
-  background-color: #EF6937;
+  background-color: rgb(184, 184, 184);
   color: #e2e2e2;
 }
 
 td {
   text-align: center;
   padding: 1em;
+  border-bottom: 0.1px solid rgba(167, 167, 167, 0.434);
 }
 /*--------Login-------------*/
+.signup{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  padding: 2em;
+}
+.sign-in-panel{
+  display: flex;
+  background-color: #6cbac7;
+  width: 100%;
+  height: 100px;
+  justify-content: center;
+  align-items: center;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+
+}
 .logincard{
-  margin-top: 200px;
-  margin-left: 500px;
-  margin-right: 500px;
-  border-radius: 20px;
   align-content: center;
   align-items: center;
+  background-color: gainsboro;
+  height: 330px;
+  width: 350px;
+  border-radius: 10px;
+
+}
+/*----------UploadEmployees-------*/
+#upload{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+#csv_uploads{
+  all: unset;
+  border: 1px solid black;
+  padding: 1em;
+  border-radius: 5px;
+  max-width: 150px;
 }

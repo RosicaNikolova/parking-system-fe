@@ -3,10 +3,9 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import './App.css';
 
-function ListOfMeetings() {
+function ListOfMeetings(props) {
     
     const [meetings, setMeetings] = useState([]);
-    let navigate = useNavigate();
     useEffect(() => {
         // GET request using axios inside useEffect React hook
         axios.get("http://localhost:8080/appointment/appointments", {
@@ -17,6 +16,24 @@ function ListOfMeetings() {
         });
         // empty dependency array means this effect will only run once (like componentDidMount in classes)
     }, []);
+    const [showedMeetings, setShowedMeetings] = useState(meetings);
+    let navigate = useNavigate();
+    const showMeetings = () => {
+        if(props.typedName === ""){
+            setShowedMeetings(meetings);
+            console.log("zkouska prazdnej string hotovo");
+        }else{
+            meetings.filter(meeting => meeting.lastNameEmployee.includes(props.typedName)).map(filteredMeeting => (
+                setShowedMeetings(filteredMeeting)
+            ));
+            console.log("zkouska S "+ showedMeetings);
+            console.log("hotovo2");
+        }
+    }
+    
+    useEffect(()=>{
+        showMeetings();
+    },[props.typedName])
 
     const openUpdate = (id) => {
         navigate(`/edit/${id}`);
@@ -32,10 +49,11 @@ function ListOfMeetings() {
         }
 
     return (
-        <div className="list-of-meetings">
+        <div id="meetings" className="list">
             <table>
                 <thead>
                     <tr>
+                        <th>Nr.</th>
                         <th>Employee name</th>
                         <th>Visitor name</th>
                         <th>Phone number</th>
@@ -47,9 +65,10 @@ function ListOfMeetings() {
                     </tr>
                 </thead>
                 <tbody>
-                    {meetings.map((item) => {
+                    {showedMeetings.map((item, i) => {
                         return (
                             <tr key={item.id}>
+                                <td>{i}</td>
                                 <td>{item.firstNameEmployee + " " + item.lastNameEmployee}</td>
                                 <td>{item.firstNameVisitor + " " + item.lastNameVisitor}</td>
                                 <td>{item.phoneVisitor}</td>
@@ -57,9 +76,9 @@ function ListOfMeetings() {
                                 <td>{JSON.stringify(item.comesByCar)}</td>
                                 <td>{item.dateTime}</td>
                                 <td>
-                                    <button onClick={() => openUpdate(item.id)}>Update</button>
+                                    <button id="edit" onClick={() => openUpdate(item.id)}>Edit</button>
                                 </td>
-                                {<td><button onClick={() => handleRemove(item.id)} type="submit" value={item.id}> Delete</button></td>}
+                                {<td><button id="remove" onClick={() => handleRemove(item.id)} type="submit" value={item.id}>Remove</button></td>}
                             </tr>
                         )
                     })}
