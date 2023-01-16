@@ -8,7 +8,7 @@ import axios from "axios";
 import validation from '../Validation';
 import { useNavigate } from "react-router-dom";
 
-export default function CreateMeeting() {
+export default function CreateMeeting(props) {
 
     let navigate = useNavigate();
     const [filters, setFilters] = useState({});
@@ -225,7 +225,7 @@ export default function CreateMeeting() {
     return (
         <div>
             <div className="page-layout">
-            <Navbar />
+            <Navbar showSecretaryBoard={props.showSecretaryBoard} showAdminBoard={props.showAdminBoard} isAuth={props.isAuth}/>
                 <div className="page-container">
                 <h2>Secretary</h2> 
                 <div className="overview">

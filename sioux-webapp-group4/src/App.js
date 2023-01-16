@@ -50,6 +50,7 @@ function App() {
   return (
     <Router>
       <Routes>
+
           {/* Login & logout */}
           {!isAuth && 
           (
@@ -67,10 +68,10 @@ function App() {
         {showSecretaryBoard && 
         (
         <>
-            <Route path="/createmeeting" element={<CreateMeeting />}/>
-            <Route path="/edit/:id" element={<Edit />} />
+            <Route path="/createmeeting" element={<CreateMeeting showSecretaryBoard={showSecretaryBoard} showAdminBoard={showAdminBoard} isAuth={isAuth}/>}/>
+            <Route path="/edit/:id" element={<Edit showSecretaryBoard={showSecretaryBoard} showAdminBoard={showAdminBoard} isAuth={isAuth}/>} />
             <Route path="/overviewtest" element={<TempOverviewMeeting />} />
-            <Route path="/overview" element={<Overview />} />
+            <Route path="/overview" element={<Overview showSecretaryBoard={showSecretaryBoard} showAdminBoard={showAdminBoard} isAuth={isAuth}/>} />
         </>
         )}
 
@@ -78,9 +79,9 @@ function App() {
         {showAdminBoard && 
         (
         <>
-          <Route path="/admin" element={<AdminView />} />
-          <Route path="/uploademployees" element={<UploadEmployees />}/>
-          <Route path="/createemployee" element={<CreateEmployee />}/>
+          <Route path="/admin" element={<AdminView showSecretaryBoard={showSecretaryBoard} showAdminBoard={showAdminBoard} isAuth={isAuth}/>} />
+          <Route path="/uploademployees" element={<UploadEmployees showSecretaryBoard={showSecretaryBoard} showAdminBoard={showAdminBoard} isAuth={isAuth}/>}/>
+          <Route path="/createemployee" element={<CreateEmployee showSecretaryBoard={showSecretaryBoard} showAdminBoard={showAdminBoard} isAuth={isAuth}/>}/>
         </>
         )}
 

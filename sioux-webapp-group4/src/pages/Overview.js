@@ -3,7 +3,7 @@ import ListOfMeetings from "../components/ListOfMeetings";
 import Navbar from "../components/Navbar";
 import { useNavigate } from 'react-router-dom';
 
-function Overview() {
+function Overview(props) {
     let navigate = useNavigate();
     const [employeesName, setEmployeesName] = useState("");
     useEffect(()=>{
@@ -12,7 +12,7 @@ function Overview() {
     return (
         <div>
             <div className="page-layout">
-                <Navbar />
+            <Navbar showSecretaryBoard={props.showSecretaryBoard} showAdminBoard={props.showAdminBoard} isAuth={props.isAuth}/>
                 <div className="page-container">
                     {/* later take it from jwt decoded token */}
                     <h2>Secretary</h2>

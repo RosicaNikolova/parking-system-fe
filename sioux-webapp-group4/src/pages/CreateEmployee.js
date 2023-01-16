@@ -5,7 +5,7 @@ import axios from "axios";
 import validation from '../Validation';
 import { useNavigate } from "react-router-dom";
 
-export default function CreateEmployee() {
+export default function CreateEmployee(props) {
     const [employee, setEmployee] = useState({});
     let navigate = useNavigate();
     const [errors, setErrors] = useState("");
@@ -78,7 +78,7 @@ export default function CreateEmployee() {
     return (
         <div>
             <div className="page-layout">
-                <Navbar />
+            <Navbar showSecretaryBoard={props.showSecretaryBoard} showAdminBoard={props.showAdminBoard} isAuth={props.isAuth}/>
                 <div className="page-container">
                     <h2>Admin</h2>
                     <div className="overview">

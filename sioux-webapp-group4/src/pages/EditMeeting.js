@@ -166,7 +166,7 @@ export default function EditMeeting(props) {
             </div>
             <div className="page-layout">
                 <div className="page-container">
-                    <Navbar />
+                <Navbar showSecretaryBoard={props.showSecretaryBoard} showAdminBoard={props.showAdminBoard} isAuth={props.isAuth}/>
                     <div className="create-meeting">
                         <span>Date
                             <DatePicker
