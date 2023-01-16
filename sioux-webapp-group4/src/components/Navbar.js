@@ -26,11 +26,11 @@ export default function Navbar(props) {
             path: "/createmeeting",
             text: "Create meeting"
         },
-        {
-            id:3,
-            path:"/employees",
-            text:"Employees"
-        }
+        // {
+        //     id:3,
+        //     path:"/employees",
+        //     text:"Employees"
+        // }
     ]
 
     const linksAdmin = [

@@ -25,7 +25,7 @@ export default function UploadEmployees(props) {
               lastName: employee[2],
             });
             console.log(resp.data);
-            navigate("/overview");
+            navigate("/admin");
           } catch (error) {
             console.log(error.response);
           }

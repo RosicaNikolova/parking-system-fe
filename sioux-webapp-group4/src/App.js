@@ -52,7 +52,7 @@ function App() {
     <Router>
       <Routes> 
           <Route path="/" element={<LoginPage/>} />
-          <Route path="/employees" element={<ListOfEmployees />} />
+
 
           {/* Login & logout */}
           {!isAuth && 
@@ -85,6 +85,7 @@ function App() {
           <Route path="/admin" element={<AdminView showSecretaryBoard={showSecretaryBoard} showAdminBoard={showAdminBoard} isAuth={isAuth}/>} />
           <Route path="/uploademployees" element={<UploadEmployees showSecretaryBoard={showSecretaryBoard} showAdminBoard={showAdminBoard} isAuth={isAuth}/>}/>
           <Route path="/createemployee" element={<CreateEmployee showSecretaryBoard={showSecretaryBoard} showAdminBoard={showAdminBoard} isAuth={isAuth}/>}/>
+          <Route path="/employees" element={<ListOfEmployees />} />
         </>
         )}
 
