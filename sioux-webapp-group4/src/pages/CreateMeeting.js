@@ -7,6 +7,7 @@ import Navbar from "../components/Navbar";
 import axios from "axios";
 import validation from '../Validation';
 import { useNavigate } from "react-router-dom";
+import AccountService from "../services/AccountService";
 
 export default function CreateMeeting(props) {
 
@@ -66,7 +67,8 @@ export default function CreateMeeting(props) {
             }
         },
             {
-                headers: { 'Content-Type': 'application/json' }
+                headers: { 'Content-Type': 'application/json' },
+            'Authorization': 'Bearer '+AccountService.getToken() 
             }).then(function (response) {
                 setAvailableTimeSlots(response.data.timeSlots);
                 console.log("timeslots:" + response.data.timeSlots);
@@ -205,7 +207,8 @@ export default function CreateMeeting(props) {
                 licensePlate: meeting.licensePlate,
                 comesByCar: meeting.byCar
             }), {
-                headers: { 'Content-Type': 'application/json' }
+                headers: { 'Content-Type': 'application/json',
+                'Authorization': 'Bearer '+AccountService.getToken() }
             })
     }
     

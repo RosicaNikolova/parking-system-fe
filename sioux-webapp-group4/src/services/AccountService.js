@@ -1,7 +1,6 @@
 import Config from "./Config";
 import axios from "axios";
 import jwt from 'jwt-decode'
-
 //Post
 const login = data => {
     return axios
@@ -9,7 +8,7 @@ const login = data => {
             "email": data.email,
             "password": data.password
     }),{
-    headers: { 'Content-Type': 'application/json' } 
+    headers: { 'Content-Type': 'application/json' }
     })
 }
 

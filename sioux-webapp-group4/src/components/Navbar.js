@@ -12,6 +12,7 @@ export default function Navbar(props) {
         AuthenticationService.logout();
         console.log("logout");
         navigate("/login");
+        window.location.reload();
     }
 
     const linksSecretary = [
