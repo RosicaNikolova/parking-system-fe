@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../components/App.css";
+import AccountService from "../services/AccountService";
 import AuthenticationService from "../services/AuthenticationService";
-
+import Roles from "../enums/Roles";
 function LoginPage() {
 
     let navigate = useNavigate();
@@ -30,7 +31,17 @@ function LoginPage() {
                 //for debug
                 console.log("Login: " + "AccessToken: " + accessToken);
                 console.log("Roles: " + roles);
-                navigate("/overview");
+                // var fetchRoles = AccountService.getRoles();
+                roles.map((role)=>{
+                    if(role === Roles.admin)
+                    {
+                        navigate("/admin")
+                    }
+                    else if(role === Roles.secretary)
+                    {
+                        navigate("/overview")
+                    }
+            })
                 window.location.reload();
             })
             .catch(message => setMessage("Ivalid credentials"));
