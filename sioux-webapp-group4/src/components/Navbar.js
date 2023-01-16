@@ -12,6 +12,7 @@ export default function Navbar(props) {
         AuthenticationService.logout();
         console.log("logout");
         navigate("/login");
+        window.location.reload();
     }
 
     const linksSecretary = [
@@ -51,6 +52,9 @@ export default function Navbar(props) {
         <nav>
             <img id='logo' src={logo} alt='logo'/>
             <ul>
+                {
+                props.showSecretaryBoard && (
+                <>
                 {linksSecretary.map(link => {
                     return (
                         <li key={link.id}>
@@ -60,12 +64,31 @@ export default function Navbar(props) {
                         </li>
                     )
                 })}
-
+                </>
+                )}
+                {
+                props.showAdminBoard && (
+                <>
+                {linksAdmin.map(link => {
+                    return (
+                        <li key={link.id}>
+                            <NavLink to={link.path}>
+                                {link.text}
+                            </NavLink>
+                        </li>
+                    )
+                })}
+                </>
+                )}
             </ul>
-            <div>
+            {
+                props.isAuth && (
+                <>
+                <div>
                 <button className='logout' onClick={logout}>Logout</button>
-
-            </div>
+                </div>
+                </>
+                )}
         </nav>
     )
 }

@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import axios from "axios";
+import AccountService from "../services/AccountService";
 export default function TempOverviewMeeting()
 {
     const [meetings, setMeetings] = useState([]);
@@ -7,7 +8,8 @@ export default function TempOverviewMeeting()
       useEffect(() => {
           // GET request using axios inside useEffect React hook
           axios.get("http://localhost:8080/appointment/appointments",{
-            headers: { 'Content-Type': 'application/json' } 
+            headers: { 'Content-Type': 'application/json',
+            'Authorization': 'Bearer '+AccountService.getToken() } 
             }).then((response) => {
                 setMeetings(response.data.appointmentList)
                 console.log(response.data.appointmentList)
@@ -20,7 +22,8 @@ export default function TempOverviewMeeting()
       (id) => 
               {
                 axios.delete("http://localhost:8080/appointment/"+id,{
-                    headers: { 'Content-Type': 'application/json' } 
+                    headers: { 'Content-Type': 'application/json',
+                    'Authorization': 'Bearer '+AccountService.getToken() } 
                     }).then(
                     setMeetings(meetings.filter(item => item.id !== id))) 
                   //console.log(reservations);

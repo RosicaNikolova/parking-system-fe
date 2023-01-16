@@ -5,8 +5,8 @@ import { addDays } from 'date-fns';
 import moment from 'moment';
 import { useNavigate } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
-
 import axios from "axios";
+import AccountService from "../services/AccountService";
 
 export default function EditMeeting(props) {
 
@@ -84,7 +84,8 @@ export default function EditMeeting(props) {
             }
         },
             {
-                headers: { 'Content-Type': 'application/json' }
+                headers: { 'Content-Type': 'application/json' },
+                'Authorization': 'Bearer '+AccountService.getToken() 
             }).then(function (response) {
                 setAvailableTimeSlots(response.data.timeSlots);
                 console.log(filters);
@@ -137,7 +138,8 @@ export default function EditMeeting(props) {
                 comesByCar: editedMeeting.comesByCar, //is not in backend
                 licensePlate: editedMeeting.licensePlate //is not in backend
             }), {
-                headers: { 'Content-Type': 'application/json' }
+                headers: { 'Content-Type': 'application/json',
+                'Authorization': 'Bearer '+AccountService.getToken() }
             })
         navigate("/overview");
     }
@@ -166,7 +168,7 @@ export default function EditMeeting(props) {
             </div>
             <div className="page-layout">
                 <div className="page-container">
-                    <Navbar />
+                <Navbar showSecretaryBoard={props.showSecretaryBoard} showAdminBoard={props.showAdminBoard} isAuth={props.isAuth}/>
                     <div className="create-meeting">
                         <span>Date
                             <DatePicker

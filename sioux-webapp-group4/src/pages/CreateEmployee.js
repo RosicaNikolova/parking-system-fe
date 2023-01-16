@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 const url = 'http://localhost:8080/employee';
 
 
-export default function CreateEmployee() {
+export default function CreateEmployee(props) {
     const [employee, setEmployee] = useState({});
     let navigate = useNavigate();
     const [firstname, setFirstname] = useState('');
@@ -98,7 +98,7 @@ export default function CreateEmployee() {
     return (
         <div>
             <div className="page-layout">
-                <Navbar />
+            <Navbar showSecretaryBoard={props.showSecretaryBoard} showAdminBoard={props.showAdminBoard} isAuth={props.isAuth}/>
                 <div className="page-container">
                     <h2>Admin</h2>
                     <div className="overview">

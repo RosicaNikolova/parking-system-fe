@@ -7,7 +7,7 @@ import axios from "axios";
 
 const url = "http://localhost:8080/employee";
 
-export default function UploadEmployees() {
+export default function UploadEmployees(props) {
   let navigate = useNavigate();
 
   const [file, setFile] = useState();
@@ -41,7 +41,7 @@ export default function UploadEmployees() {
   return (
     <div>
       <div id="1" className="page-layout">
-        <Navbar />
+        <Navbar showSecretaryBoard={props.showSecretaryBoard} showAdminBoard={props.showAdminBoard} isAuth={props.isAuth}/>
         <div className="page-container">
           <h2>Admin</h2>
           <div className="overview">

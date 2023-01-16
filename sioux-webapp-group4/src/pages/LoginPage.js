@@ -31,7 +31,7 @@ function LoginPage() {
                 console.log("Login: " + "AccessToken: " + accessToken);
                 console.log("Roles: " + roles);
                 navigate("/overview");
-
+                window.location.reload();
             })
             .catch(message => setMessage("Ivalid credentials"));
     };
