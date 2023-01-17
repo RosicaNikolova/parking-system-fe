@@ -25,12 +25,7 @@ export default function Navbar(props) {
             id: 2,
             path: "/createmeeting",
             text: "Create meeting"
-        },
-        // {
-        //     id:3,
-        //     path:"/employees",
-        //     text:"Employees"
-        // }
+        }
     ]
 
     const linksAdmin = [
@@ -46,8 +41,13 @@ export default function Navbar(props) {
         },
         {
             id:3,
-            path:"/editEmployee/:employeeId",
-            text:"Edit Employee"
+            path:"/uploademployees",
+            text:"Upload employees"
+        },
+        {
+            id:4,
+            path:"/createsecretary",
+            text:"Create Secretary"
         }
     ]
 
