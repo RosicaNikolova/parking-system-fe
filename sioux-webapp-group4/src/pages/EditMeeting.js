@@ -90,8 +90,7 @@ export default function EditMeeting(props) {
             }
         },
             {
-                headers: { 'Content-Type': 'application/json' },
-                'Authorization': 'Bearer '+AccountService.getToken() 
+                headers: { 'Content-Type': 'application/json' }
             }).then(function (response) {
                 setAvailableTimeSlots(response.data.timeSlots);
                 console.log(filters);
@@ -176,8 +175,7 @@ export default function EditMeeting(props) {
                 comesByCar: editedMeeting.comesByCar, //is not in backend
                 licensePlate: oldMeeting.licensePlate //is not in backend
             }), {
-                headers: { 'Content-Type': 'application/json',
-                'Authorization': 'Bearer '+AccountService.getToken() }
+                headers: { 'Content-Type': 'application/json' }
             })
         navigate("/overview");
     }

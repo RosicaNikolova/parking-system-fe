@@ -76,8 +76,7 @@ export default function CreateMeeting(props) {
             }
         },
             {
-                headers: { 'Content-Type': 'application/json' },
-            'Authorization': 'Bearer '+AccountService.getToken() 
+                headers: { 'Content-Type': 'application/json' }
             }).then(function (response) {
                 setAvailableTimeSlots(response.data.timeSlots);
                 console.log("timeslots:" + response.data.timeSlots);
@@ -217,6 +216,7 @@ export default function CreateMeeting(props) {
         e.preventDefault();
         console.log(JSON.stringify(errors));
         if (passing) {
+            console.log(AccountService.getToken());
             add();
             alert(JSON.stringify(meeting));
             console.log(filters);
@@ -251,8 +251,7 @@ export default function CreateMeeting(props) {
                 comesByCar: meeting.byCar,
                 endTime: meeting.endTime
             }), {
-                headers: { 'Content-Type': 'application/json',
-                'Authorization': 'Bearer '+AccountService.getToken() }
+                headers: { 'Content-Type': 'application/json'}
             })
     }
 
