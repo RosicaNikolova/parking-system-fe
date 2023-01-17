@@ -17,6 +17,7 @@ export default function UploadEmployees(props) {
 
     Papa.parse(file, {
       complete: function (results) {
+        console.log(results.data)
         results.data.forEach((employee) => {
           try {
             const resp = axios.post(url, {

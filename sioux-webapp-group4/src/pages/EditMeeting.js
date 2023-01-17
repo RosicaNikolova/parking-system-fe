@@ -34,27 +34,78 @@ export default function EditMeeting(props) {
     const initialMeetings = [
         {
             id: 1,
-            dateTime: "2022-11-17",
+            // dateTime: "2022-11-17T11:00",
+            dateTime: "2023-01-18",
         },
         {
             id: 2,
-            dateTime: "2022-11-15",
+            // dateTime: "2022-11-15T11:30",
+            dateTime: "2023-01-19",
         },
         {
             id: 3,
-            dateTime: "2022-11-17",
+            // dateTime: "2022-11-17T12:00",
+            dateTime: "2023-01-20",
         },
         {
             id: 4,
-            dateTime: "2022-11-21",
+            // dateTime: "2022-11-21T12:30",
+            dateTime: "2023-01-21",
         },
         {
             id: 5,
-            dateTime: "2022-11-21",
+            // dateTime: "2022-11-21T13:00",
+            dateTime: "2023-01-22",
         },
         {
             id: 6,
-            dateTime: "2022-12-21",
+            // dateTime: "2022-12-21T13:00",
+            dateTime: "2023-01-23",
+        },
+        {
+            id: 7,
+            // dateTime: "2022-12-21T13:00",
+            dateTime: "2023-01-24",
+        },
+        {
+            id: 8,
+            // dateTime: "2022-12-21T13:00",
+            dateTime: "2023-01-25",
+        },
+        {
+            id: 9,
+            // dateTime: "2022-12-21T13:00",
+            dateTime: "2023-01-26",
+        },
+        {
+            id: 10,
+            // dateTime: "2022-12-21T13:00",
+            dateTime: "2023-01-27",
+        },
+        {
+            id: 11,
+            // dateTime: "2022-12-21T13:00",
+            dateTime: "2023-01-28",
+        },
+        {
+            id: 12,
+            // dateTime: "2022-12-21T13:00",
+            dateTime: "2023-01-29",
+        },
+        {
+            id: 13,
+            // dateTime: "2022-12-21T13:00",
+            dateTime: "2023-01-30",
+        },
+        {
+            id: 14,
+            // dateTime: "2022-12-21T13:00",
+            dateTime: "2023-01-31",
+        },
+        {
+            id: 15,
+            // dateTime: "2022-12-21T13:00",
+            dateTime: "2023-02-16",
         }
     ];
     const [availableMeetings, setAvailableMeetings] = useState(initialMeetings);
@@ -186,9 +237,8 @@ export default function EditMeeting(props) {
     return (
         <div>
             <div className="page-layout">
-                <Navbar />
+            <Navbar showSecretaryBoard={props.showSecretaryBoard} showAdminBoard={props.showAdminBoard} isAuth={props.isAuth}/>
                 <div className="page-container">
-                <Navbar showSecretaryBoard={props.showSecretaryBoard} showAdminBoard={props.showAdminBoard} isAuth={props.isAuth}/>
                     <h2>Secretary</h2>
                     <div className="overview">
                         <h3>Edit appointment</h3>
@@ -209,6 +259,7 @@ export default function EditMeeting(props) {
                         <span>
                             Pick the start time:
                             <select value={selected} onChange={(e) => { setSelected(e.target.value); pickAvailableMeeting(e.target.value); }}>
+                            <option value="" disabled selected>Select start time</option>
                                 {availableTimeSlots.map(
                                     (availableTimeSlot, j) => {
                                         return (
@@ -222,6 +273,7 @@ export default function EditMeeting(props) {
                         <span>
                             Pick the end time:
                             <select value={selectedEndTime} onChange={(e) => pickEndTime(e.target.value)}>
+                            <option value="" disabled selected>Select end time</option>
                                 {availableEndTimes.map(
                                     (availableEndTime, j) => {
                                         return (

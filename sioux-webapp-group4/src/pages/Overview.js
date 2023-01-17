@@ -17,13 +17,13 @@ function Overview(props) {
                 <div className="page-container">
                     {/* later take it from jwt decoded token */}
                     <h2>Secretary</h2>
-                    <input 
+                    {/* <input 
                         className='search' 
                         placeholder='Search name'
                         type='text'
                         onChange={e => setEmployeesName(e.target.value)}
                         value={employeesName || ""}
-                     />
+                     /> */}
                     <div className='overview'>
                         <div className='overview-nav'>
                             <h3>Appointment overview</h3>

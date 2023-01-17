@@ -1,0 +1,42 @@
+version: '2'
+services:
+    mysqldb:
+        # container_name: s3db
+        image: mysql
+        ports:
+            - 3030:3306
+        environment:
+            MYSQL_DATABASE: s3onlydevs
+            MYSQL_ROOT_PASSWORD: 1234qwerty
+
+    s3app:
+#        container_name: s3backend
+#        build:
+#            dockerfile: Dockerfile
+#        image: backendimage:latest
+        image: mikewang1997/s3individual:latest
+        restart: always
+        ports:
+            - 8080:8080
+        environment: 
+            MYSQL_HOST: mysqldb
+            MYSQL_USER: root
+            MYSQL_PASSWORD: 1234qwerty
+            MYSQL_PORT: 3306
+            # SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/s3restaurant?autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true
+        depends_on: 
+            - mysqldb
+        
+    app-client:
+        build:
+#            context: polling-app-client # Use an image built from the specified dockerfile in the `polling-app-client` directory.
+             dockerfile: Dockerfile
+    #        image: mikewang1997/s3individual:frontend
+    #        image: frontendsioux:latest
+            args:
+                    REACT_APP_API_BASE_URL: http://127.0.0.1:8080
+        ports:
+            - "3000:3000" # Map the exposed port 80 on the container to port 9090 on the host machine
+        restart: always
+        depends_on:
+            - s3app

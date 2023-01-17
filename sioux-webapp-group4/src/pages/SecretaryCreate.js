@@ -43,7 +43,7 @@ export default function SecretaryCreate(props) {
                 role:"SECRETARY"
             });
             console.log(resp.data);
-            navigate("/overview");
+            navigate("/admin");
         } catch (error) {
             console.log(error.response);
         }
@@ -63,7 +63,7 @@ export default function SecretaryCreate(props) {
                 <div className="page-container">
                     <h2>Admin</h2>
                     <div className="overview">
-                        <h3>Create employee</h3>
+                        <h3>Create secretary</h3>
                         <div className="create-meeting">
                             <form>
                                 <span>Email<input

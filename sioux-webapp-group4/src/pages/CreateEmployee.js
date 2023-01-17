@@ -46,7 +46,7 @@ export default function CreateEmployee(props) {
                 email: employee.email,
             });
             console.log(resp.data);
-            navigate("/overview");
+            navigate("/admin");
         } catch (error) {
             console.log(error.response);
         }
@@ -150,7 +150,7 @@ export default function CreateEmployee(props) {
                                     <option key={i} value={option.value}>{option.label}</option>
                                 ))}
                             </select> */}
-                            <form>
+                            <form onSubmit={handleSubmit}>
                                 <span>First name<input
                                     placeholder="First name"
                                     type="text"
@@ -176,7 +176,8 @@ export default function CreateEmployee(props) {
                                     required={true}
                                 />
                                 </span>{errors.email && <span id="err">{errors.email}</span>}
-                                <button onClick={e => handleSubmit(e)} type="submit">Submit</button>
+                                {/* <button onClick={e => handleSubmit(e)} type="submit">Submit</button> */}
+                                <button type="submit">Submit</button>
                             </form>
                         </div>
                     </div>

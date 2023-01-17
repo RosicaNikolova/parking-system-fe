@@ -65,7 +65,7 @@ function ListOfEmployees(props) {
                     {employees.map((item, i) => {
                         return (
                             <tr key={item.id}>
-                                <td>{i}</td>
+                                <td>{item.id}</td>
                                 <td>{item.firstName + " " + item.lastName}</td>
                                 <td>{item.email}</td>
                                 <td>{item.role}</td>

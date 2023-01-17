@@ -43,6 +43,7 @@ export default function EditEmployee(props) {
         }).then((res) => {
             alert('Saved successfully.')
             navigate(`/admin`);
+            window.location.reload();
         }).catch((err) => {
             console.log(err.message)
         })

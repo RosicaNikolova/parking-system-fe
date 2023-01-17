@@ -22,7 +22,7 @@ function App() {
 
   function Edit() {
     const {id} = useParams();
-    return <EditMeeting id={id}/>;
+          return <EditMeeting id={id} showSecretaryBoard={showSecretaryBoard} showAdminBoard={showAdminBoard} isAuth={isAuth}/>;
   }
 
   useEffect(()=>
