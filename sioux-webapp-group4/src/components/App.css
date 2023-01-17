@@ -132,25 +132,32 @@ form{
   width: auto;
 }
 .available-meetings-container{
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  /* display: flex; */
   align-items: center;
   align-self: center;
   /* flex-direction: row; */
   column-gap: 1em;
-  overflow-y: auto;
-  max-width: 520px;
+  /* flex-wrap: wrap; */
+  row-gap: 5px;
   padding: 1em;
   width: 100%;
 }
 .available-meeting{
   background-color: #6cbac7;
-  padding: 1em;
+  padding: 0.1em;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border-radius: 20px;
-  box-shadow: 2px 2px 5px #B8DED0;
+  border-radius: 5px;
+  /* box-shadow: 2px 2px 5px #B8DED0; */
+  cursor: pointer;
+}
+.available-meeting h3{
+  background-color: #6cbac7;
+  margin: 0;
 }
 .available-meeting .submit-btn{
   font-size: xx-small;
@@ -213,6 +220,12 @@ form{
 }
 #upload-btn{
   align-self: flex-end;
+}
+#start{
+  color: green;
+}
+#end{
+  color: red;
 }
 
 .list{

@@ -11,6 +11,7 @@ import UploadEmployees from './pages/UploadEmployees';
 import CreateEmployee from './pages/CreateEmployee';
 import ListOfEmployees from "./components/ListOfEmployees";
 import EditEmployee from "./pages/EditEmployee";
+import CreateSecretary from './pages/SecretaryCreate';
 
 function App() {
 
@@ -33,6 +34,8 @@ function App() {
           <Route path="/createemployee" element={<CreateEmployee />}/>
           <Route path="/employees" element={<ListOfEmployees />} />
           <Route path="/editEmployee/:employeeId" element={<EditEmployee />} />
+          <Route path="/createsecretary" element={<CreateSecretary />} />
+
 
 
       </Routes>

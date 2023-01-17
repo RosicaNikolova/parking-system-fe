@@ -10,6 +10,8 @@ const url = 'http://localhost:8080/employee';
 
 export default function CreateEmployee() {
     const [employee, setEmployee] = useState({});
+    const [component, setComponent] = useState({});
+
     let navigate = useNavigate();
     const [firstname, setFirstname] = useState('');
     const [lastname, s] = useState('');
@@ -48,17 +50,6 @@ export default function CreateEmployee() {
         } catch (error) {
             console.log(error.response);
         }
-
-        // console.log(JSON.stringify(errors));
-        // if (passing) {
-        //     add();
-        //     alert(JSON.stringify(employee));
-        //     alert("Submitted successfully");
-        //     navigate("/overview"); //added
-        // }
-        // else {
-        //     alert("Data are not in the right format!");
-        // }
     }
 
     const options = [
@@ -67,33 +58,80 @@ export default function CreateEmployee() {
             value: "secretary",
         },
         {
-            label: "Admin",
-            value: "admin",
-        },
-        {
             label: "Employee",
             value: "employee",
         },
     ];
 
-    // function add() {
-    //     // alert("HAHAA");
-    //
-    //     // axios
-    //          .post("http://localhost:8080/employee", JSON.stringify({
-    //                  "firstName": meeting.employeesFirstName,
-    //                  "lastName": meeting.employeesLastName,
-    //                  "email": meeting.employeesEmail //probably we use useEffect for searching for employees email by his last name
-    //              }, {
-    //              headers: { 'Content-Type': 'application/json' }
-    //          })
-    // }
-
     const handleChange = (event) => {
         const name = event.target.name;
         const value = event.target.value;
         setEmployee(values => ({ ...values, [name]: value }));
+        console.log(employee);
     }
+
+    // const handleChangeComponent = (event) => {
+    //     const name = event.target.name;
+    //     const value = event.target.value;
+    //     setComponent(values => ({ ...values, [name]: value }));
+    // }
+
+    // const SecretaryCreate = () => {
+    //     return (
+    //         <form>
+    //             <span>Email<input
+    //                 placeholder="Email"
+    //                 type="email"
+    //                 name="email"
+    //                 value={employee.email || ""}
+    //                 onChange={handleChange}
+    //                 required={true}
+    //             /></span>{errors.email && <span id="err">{errors.email}</span>}
+    //                 <span>Password<input
+    //                     placeholder="Password"
+    //                     type="password"
+    //                     name="password"
+    //                     value={employee.password || ""}
+    //                     onChange={handleChange}
+    //                     required={true}
+    //                 />
+    //                 </span>
+    //                 <button onClick={e => handleSubmit(e)} type="submit">Submit</button>
+    //         </form>
+    //     )
+    // }
+    // const EmployeeCreate = () => {
+    //     return (
+    //         <form>
+    //             <span>First name<input
+    //                 placeholder="First name"
+    //                 type="text"
+    //                 name="firstName"
+    //                 value={employee.firstName || ""}
+    //                 onChange={handleChange}
+    //                 required={true}
+    //             /></span>
+    //             <span>Last name<input
+    //                 placeholder="Last name"
+    //                 type="text"
+    //                 name="lastName"
+    //                 value={employee.lastName || ""}
+    //                 onChange={handleChange}
+    //                 required={true}
+    //             /></span>
+    //             <span>Email<input
+    //                 placeholder="Email"
+    //                 type="email"
+    //                 name="email"
+    //                 value={employee.email || ""}
+    //                 onChange={handleChange}
+    //                 required={true}
+    //             />
+    //             </span>{errors.email && <span id="err">{errors.email}</span>}
+    //             <button onClick={e => handleSubmit(e)} type="submit">Submit</button>
+    //         </form>
+    //     )
+    // }
 
     return (
         <div>
@@ -104,15 +142,14 @@ export default function CreateEmployee() {
                     <div className="overview">
                         <h3>Create employee</h3>
                         <div className="create-meeting">
-                            <select
+                            {/* <select
                                 name="role"
-                                onChange={handleChange}
+                                onChange={handleChangeComponent}
                             >
-                                {options.map((option) => (
-                                    <option value={option.value}>{option.label}</option>
+                                {options.map((option, i) => (
+                                    <option key={i} value={option.value}>{option.label}</option>
                                 ))}
-                            </select>
-                            {/* {employee.role === "employee" ? <EmployeeCreate /> : <AdminSecretaryCreate />} */}
+                            </select> */}
                             <form>
                                 <span>First name<input
                                     placeholder="First name"
@@ -143,68 +180,9 @@ export default function CreateEmployee() {
                             </form>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
     )
+
 }
-
-// export function AdminSecretaryCreate() {
-//     return (
-//         <form>
-//             <span>Email<input
-//                 placeholder="Email"
-//                 type="email"
-//                 name="email"
-//                 value={employee.email || ""}
-//                 onChange={handleChange}
-//                 required={true}
-//             /></span>
-//                 <span>Passwprd<input
-//                     placeholder="Password"
-//                     type="password"
-//                     name="password"
-//                     value={employee.password || ""}
-//                     onChange={handleChange}
-//                     required={true}
-//                 />
-//                 </span>{errors.email && <span id="err">{errors.email}</span>}
-//                 <button onClick={e => handleSubmit(e)} type="submit">Submit</button>
-//         </form>
-//     )
-// }
-// export function EmployeeCreate() {
-//     return (
-//         <form>
-//             <span>First name<input
-//                 placeholder="First name"
-//                 type="text"
-//                 name="firstName"
-//                 value={employee.firstName || ""}
-//                 onChange={handleChange}
-//                 required={true}
-//             /></span>
-//             <span>Last name<input
-//                 placeholder="Last name"
-//                 type="text"
-//                 name="lastName"
-//                 value={employee.lastName || ""}
-//                 onChange={handleChange}
-//                 required={true}
-//             /></span>
-//             <span>Email<input
-//                 placeholder="Email"
-//                 type="email"
-//                 name="email"
-//                 value={employee.email || ""}
-//                 onChange={handleChange}
-//                 required={true}
-//             />
-//             </span>{errors.email && <span id="err">{errors.email}</span>}
-//             <button onClick={e => handleSubmit(e)} type="submit">Submit</button>
-//         </form>
-//     )
-// }
-
-

@@ -17,6 +17,7 @@ export default function AdminView() {
                             <div className='overview-nav-buttons'>
                             <button onClick={() => navigate("/uploademployees")} id='create'>Upload employees</button>
                             <button onClick={() => navigate("/createemployee")} id='create'>Create employee</button>
+                            <button onClick={() => navigate("/createsecretary")} id='create'>Create secretary</button>
                             </div>
                             
                         </div>

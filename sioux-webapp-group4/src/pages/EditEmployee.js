@@ -42,7 +42,7 @@ export default function EditEmployee() {
             body: JSON.stringify(employeeData)
         }).then((res) => {
             alert('Saved successfully.')
-            navigate(`/employees`);
+            navigate(`/admin`);
         }).catch((err) => {
             console.log(err.message)
         })
