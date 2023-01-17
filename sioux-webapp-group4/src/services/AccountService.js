@@ -14,14 +14,14 @@ const login = data => {
 
 const getRoles = () =>
 {
-    const user = jwt(sessionStorage.getItem("user"));
+    const user = jwt(localStorage.getItem("user"));
     console.log(user.roles)
     return user.roles;
 }
 
 const getToken = () =>
 {
-    var item = sessionStorage.getItem("user");
+    var item = localStorage.getItem("user");
     return item;
 }
 
