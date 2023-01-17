@@ -324,6 +324,7 @@ export default function CreateMeeting(props) {
                             <span>
                                 Pick the start time:
                                 <select value={selected} onChange={(e) => {setSelected(e.target.value); pickAvailableMeeting(e.target.value); }}>
+                                <option value="" disabled selected>Select start time</option>
                                 {availableTimeSlots.map(
                                     (availableTimeSlot, j) => {
                                         return (
@@ -337,6 +338,7 @@ export default function CreateMeeting(props) {
                             <span>
                                 Pick the end time:
                                 <select value={selectedEndTime} onChange={(e) => pickEndTime(e.target.value)}>
+                                <option value="" disabled selected>Select end time</option>
                                 {availableEndTimes.map(
                                     (availableEndTime, j) => {
                                         return (
