@@ -43,6 +43,11 @@ export default function Navbar(props) {
             id: 2,
             path: "/createemployee",
             text: "Create employee"
+        },
+        {
+            id:3,
+            path:"/editEmployee/:employeeId",
+            text:"Edit Employee"
         }
     ]
 

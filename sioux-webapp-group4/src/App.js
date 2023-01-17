@@ -12,9 +12,10 @@ import CreateEmployee from './pages/CreateEmployee';
 import ListOfEmployees from "./components/ListOfEmployees";
 import AuthenticationService from './services/AuthenticationService';
 import Roles from './enums/Roles';
+import EditEmployee from "./pages/EditEmployee";
+import CreateSecretary from './pages/SecretaryCreate';
 
 function App() {
-
   const [isAuth, setIsAuth] = useState(false);
   const [showSecretaryBoard, setShowSecretaryBoard] = useState(false);
   const [showAdminBoard, setShowAdminBoard] = useState(false);
@@ -51,9 +52,6 @@ function App() {
   return (
     <Router>
       <Routes> 
-          <Route path="/" element={<LoginPage/>} />
-
-
           {/* Login & logout */}
           {!isAuth && 
           (
@@ -82,6 +80,8 @@ function App() {
         {showAdminBoard && 
         (
         <>
+          <Route path="/editEmployee/:employeeId" element={<EditEmployee showSecretaryBoard={showSecretaryBoard} showAdminBoard={showAdminBoard} isAuth={isAuth}/>} />
+          <Route path="/createsecretary" element={<CreateSecretary showSecretaryBoard={showSecretaryBoard} showAdminBoard={showAdminBoard} isAuth={isAuth}/>} />
           <Route path="/admin" element={<AdminView showSecretaryBoard={showSecretaryBoard} showAdminBoard={showAdminBoard} isAuth={isAuth}/>} />
           <Route path="/uploademployees" element={<UploadEmployees showSecretaryBoard={showSecretaryBoard} showAdminBoard={showAdminBoard} isAuth={isAuth}/>}/>
           <Route path="/createemployee" element={<CreateEmployee showSecretaryBoard={showSecretaryBoard} showAdminBoard={showAdminBoard} isAuth={isAuth}/>}/>

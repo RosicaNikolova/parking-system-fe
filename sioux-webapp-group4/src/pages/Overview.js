@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import ListOfMeetings from "../components/ListOfMeetings";
 import Navbar from "../components/Navbar";
 import { useNavigate } from 'react-router-dom';
+import TempOverviewMeeting from './TempOverviewMeeting';
 
 function Overview(props) {
     let navigate = useNavigate();
@@ -28,7 +29,8 @@ function Overview(props) {
                             <h3>Appointment overview</h3>
                             <button onClick={() => navigate("/createmeeting")} id='create'>Create meeting</button>
                         </div>
-                        <ListOfMeetings typedName={employeesName}/>
+                        {/* <ListOfMeetings typedName={employeesName}/> */}
+                        <TempOverviewMeeting />
                     </div>
 
                 </div>

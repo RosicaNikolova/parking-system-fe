@@ -13,18 +13,24 @@ export default function EditMeeting(props) {
     // these are parameters for get method -> timeslots!
     const [filters, setFilters] = useState([]);
     const [availableTimeSlots, setAvailableTimeSlots] = useState([]);
+    const [selected, setSelected] = useState("");
+    const [selectedEndTime, setSelectedEndTime] = useState("");
+    const [availableEndTimes, setAvailableEndTimes] = useState([]);
+
+
     let navigate = useNavigate();
-    
+
     const [oldMeeting, setOldMeeting] = useState(
         {
             id: props.id,
             dateTime: "",
         }
     );
-    
+
 
     const [editedMeeting, setEditedMeeting] = useState(oldMeeting);
     //this needs to be replaced by get method
+    
     const initialMeetings = [
         {
             id: 1,
@@ -73,7 +79,7 @@ export default function EditMeeting(props) {
         //here should be the axios get method
     }, [filters])
 
-    //Axios get timeslots
+    //get timeslots
     async function filterData() {
         axios.get("http://localhost:8080/appointment/", {
             params: {
@@ -92,7 +98,37 @@ export default function EditMeeting(props) {
             })
     }
 
-    
+    //get endTimeSlots
+    async function getEndTimes(data) {
+        axios.get("http://localhost:8080/appointment/endTimeSlots", {
+            params: {
+                "hour": data.substring(0, 2),
+                "minutes": data.split(':')[1],
+                "id": oldMeeting.employee_id, //employee id
+                "year": filters.year,
+                "month": filters.month,
+                "day": filters.day
+            }
+        },
+            {
+                headers: { 'Content-Type': 'application/json' }
+            }).then(function (response) {
+                setAvailableEndTimes(response.data.timeSlots);
+                console.log("timeslots:" + response.data.timeSlots);
+            })
+    }
+
+    const pickEndTime = (data) => {
+        setSelectedEndTime(data);
+        setEditedMeeting(meeting => ({
+            ...meeting,
+            endTime: data.substring(0, 3) + data.split(':')[1]
+        }
+        )
+        )
+    }
+
+
     // const [checked, setChecked] = useState(oldMeeting.comesByCar);
 
     // filteres availabale meetings
@@ -112,6 +148,7 @@ export default function EditMeeting(props) {
     // concatenates date into the right format
     const pickAvailableMeeting = (availableTimeSlot) => {
         setEditedMeeting(meeting => ({ ...meeting, dateTime: editedMeeting.dateForFiltering + "T" + availableTimeSlot }))
+        getEndTimes(availableTimeSlot)
     }
 
     // const handleClick = () => setChecked(!checked);
@@ -130,13 +167,14 @@ export default function EditMeeting(props) {
     //Put
     function put() {
         alert("Request has been sent");
-        alert(JSON.stringify(editedMeeting));
+        // alert(JSON.stringify(editedMeeting));
         axios
             .put("http://localhost:8080/appointment", JSON.stringify({
                 id: props.id,
                 dateTime: editedMeeting.dateTime,
+                endTime: editedMeeting.endTime,
                 comesByCar: editedMeeting.comesByCar, //is not in backend
-                licensePlate: editedMeeting.licensePlate //is not in backend
+                licensePlate: oldMeeting.licensePlate //is not in backend
             }), {
                 headers: { 'Content-Type': 'application/json',
                 'Authorization': 'Bearer '+AccountService.getToken() }
@@ -146,29 +184,18 @@ export default function EditMeeting(props) {
     //--------------end of axios (2methods) ----------------------
 
     const [startDate, setStartDate] = useState(oldMeeting.dateTime);
-    // const handleChange = (event) => {
-    //     // if (event.target.name === "comesByCar") {
-    //     //     const name = event.target.name;
-    //     //     const value = event.target.checked;
-    //     //     setEditedMeeting(values => ({ ...values, [name]: value }));
-    //     // }
-    //     // else {
-    //     //     const name = event.target.name;
-    //     //     const value = event.target.value;
-    //     //     setEditedMeeting(values => ({ ...values, [name]: value }));
-    //     // }
-    //     const name = event.target.name;
-    //     const value = event.target.value;
-    //     setEditedMeeting(values => ({ ...values, [name]: value }));
-    // }
+
     return (
         <div>
-            <div className="top-panel">
-                <h3>Edit Meeting</h3>
-            </div>
             <div className="page-layout">
+                <Navbar />
                 <div className="page-container">
                 <Navbar showSecretaryBoard={props.showSecretaryBoard} showAdminBoard={props.showAdminBoard} isAuth={props.isAuth}/>
+                    <h2>Secretary</h2>
+                    <div className="overview">
+                        <h3>Edit appointment</h3>
+                        <div className="create-meeting"></div>
+
                     <div className="create-meeting">
                         <span>Date
                             <DatePicker
@@ -181,7 +208,62 @@ export default function EditMeeting(props) {
                                 onChange={(date) => { setEditedMeeting(values => ({ ...values, dateForFiltering: moment(date).format("YYYY-MM-DDTkk:mm").split('T')[0] })); setStartDate(date); setFilters(params => ({ ...params, year: moment(date).format("YYYY"), month: moment(date).format("MM"), day: moment(date).format("DD") })) }}
                             />
                         </span>
-                        <div className="available-meetings-container">{availableTimeSlots.map(
+                        <span>
+                            Pick the start time:
+                            <select value={selected} onChange={(e) => { setSelected(e.target.value); pickAvailableMeeting(e.target.value); }}>
+                                {availableTimeSlots.map(
+                                    (availableTimeSlot, j) => {
+                                        return (
+                                            <option key={j} value={availableTimeSlot}>{availableTimeSlot.substring(0, 5)}</option>
+                                        )
+                                    }
+                                )
+                                }
+                            </select>
+                        </span>
+                        <span>
+                            Pick the end time:
+                            <select value={selectedEndTime} onChange={(e) => pickEndTime(e.target.value)}>
+                                {availableEndTimes.map(
+                                    (availableEndTime, j) => {
+                                        return (
+                                            <option key={j} value={availableEndTime}>{availableEndTime.substring(0, 5)}</option>
+                                        )
+                                    }
+                                )
+                                }
+                            </select>
+                        </span>
+                        <span>Selected date and time for meeting<input type="text" value={editedMeeting.dateTime} disabled={true} placeholder={oldMeeting.dateTime} /></span>
+                        <form onSubmit={put}>
+
+                            <button className="submit-btn" type="submit">Submit</button>
+                        </form>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+// const handleChange = (event) => {
+//     // if (event.target.name === "comesByCar") {
+//     //     const name = event.target.name;
+//     //     const value = event.target.checked;
+//     //     setEditedMeeting(values => ({ ...values, [name]: value }));
+//     // }
+//     // else {
+//     //     const name = event.target.name;
+//     //     const value = event.target.value;
+//     //     setEditedMeeting(values => ({ ...values, [name]: value }));
+//     // }
+//     const name = event.target.name;
+//     const value = event.target.value;
+//     setEditedMeeting(values => ({ ...values, [name]: value }));
+// }
+
+{/* <div className="available-meetings-container">{availableTimeSlots.map(
                             (availableTimeSlot, j) => {
                                 return (
                                     <div className="available-meeting" key={j}>
@@ -191,21 +273,10 @@ export default function EditMeeting(props) {
                                 )
                             }
                         )}
-                        </div>
-                        
-                        <span>Selected date and time for meeting<input type="dateTime-local" value={editedMeeting.dateTime} disabled={true} /></span>
-                        <form onSubmit={put}>
-                            {/* <span>By car<input type="checkbox" name="comesByCar"
+                        </div> */}
+
+{/* <span>By car<input type="checkbox" name="comesByCar"
                                 value={editedMeeting.comesByCar || checked}
                                 onChange={handleChange} onClick={handleClick} checked={checked} />{checked && (<input placeholder={oldMeeting.licensePlate} type="text" name="licensePlate"
                                     value={editedMeeting.licensePlate || ""}
                                     onChange={handleChange} />)}</span> */}
-                            <button className="submit-btn" type="submit">Submit</button>
-                        </form>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    )
-}

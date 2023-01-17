@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import './App.css';
+import moment from "moment";
 
 function ListOfMeetings(props) {
     
@@ -74,7 +75,7 @@ function ListOfMeetings(props) {
                                 <td>{item.phoneVisitor}</td>
                                 <td>{item.emailVisitor}</td>
                                 <td>{JSON.stringify(item.comesByCar)}</td>
-                                <td>{item.dateTime}</td>
+                                <td>{moment(item.dateTime).format("YYYY-MM-DD")+moment(item.dateTime).format("hh:mm")}</td>
                                 <td>
                                     <button id="edit" onClick={() => openUpdate(item.id)}>Edit</button>
                                 </td>

@@ -13,7 +13,11 @@ export default function CreateMeeting(props) {
 
     let navigate = useNavigate();
     const [filters, setFilters] = useState({});
+    const [selected, setSelected] = useState("");
+    const [selectedEndTime, setSelectedEndTime] = useState("");
+
     const [availableTimeSlots, setAvailableTimeSlots] = useState([]);
+    const [availableEndTimes, setAvailableEndTimes] = useState([]);
 
     //this needs to be replaced by get method
     const initialMeetings = [
@@ -46,6 +50,11 @@ export default function CreateMeeting(props) {
             id: 6,
             // dateTime: "2022-12-21T13:00",
             dateTime: "2022-12-21",
+        },
+        {
+            id: 7,
+            // dateTime: "2022-12-21T13:00",
+            dateTime: "2022-10-10",
         }
     ];
     const [startDate, setStartDate] = useState(new Date());
@@ -75,6 +84,25 @@ export default function CreateMeeting(props) {
             })
     }
 
+
+    async function getEndTimes(data) {
+        axios.get("http://localhost:8080/appointment/endTimeSlots", {
+            params: {
+                "hour": data.substring(0,2),
+                "minutes": data.split(':')[1],
+                "id": filters.id, //employee id
+                "year":filters.year,
+                "month":filters.month,
+                "day":filters.day
+            }
+        },
+            {
+                headers: { 'Content-Type': 'application/json' }
+            }).then(function (response) {
+                setAvailableEndTimes(response.data.timeSlots);
+                console.log("timeslots:" + response.data.timeSlots);
+            })
+    }
 
     useEffect(() => {
         convertToExpectedValues();
@@ -125,8 +153,24 @@ export default function CreateMeeting(props) {
 
     //Sets actual date and time of the meeting
     const pickAvailableMeeting = (availableTimeSlot) => {
-        console.log(availableTimeSlot);
+        // console.log(availableTimeSlot);
         setMeeting(meeting => ({ ...meeting, date: meeting.dateForFiltering + "T" + availableTimeSlot }))
+        getEndTimes(availableTimeSlot);
+    }
+
+    const pickEndTime = (data) => {
+        setSelectedEndTime(data);
+        setMeeting(meeting => ({ ...meeting, 
+            // endTime: {
+            //     "hour": data.substring(0,2),
+            //     "minutes": data.split(':')[1],
+            //     "second": 0,
+            //     "nano": 0
+            // } 
+            endTime: data.substring(0,3)+ data.split(':')[1]
+        }
+            )
+            )
     }
 
     const textChangedName = e => {
@@ -144,7 +188,6 @@ export default function CreateMeeting(props) {
             )
     }
 
-    //NEED TO BE CHANGED FOR AXIOS GET METHOD
     const selectEmployee = (employeeSearched) => {
         setMeeting(meeting => ({ ...meeting, employeesEmail: employeeSearched.email, employeesFirstName: employeeSearched.firstName, employeesLastName: employeeSearched.lastName }));
         setFilters(params => ({ ...params, id: employeeSearched.id })); //this stores the id of employee
@@ -152,44 +195,44 @@ export default function CreateMeeting(props) {
     const [errors, setErrors] = useState("");
     const [passing, setPassing] = useState(true);
 
-    useEffect(()=>{
-        // setErrors(validation(meeting, checked));
+    useEffect(() => {
         setErrors(validation(meeting));
-    },[meeting.email, meeting.phone]);
+    }, [meeting.email, meeting.phone]);
 
-    useEffect(()=>{
+    useEffect(() => {
         for (const value in errors) {
-            if(errors[value] !== ""){
+            if (errors[value] !== "") {
                 // alert(errors[value]);
                 setPassing(false);
                 break;
             }
-            else{
+            else {
                 setPassing(true);
             }
         };
-    },[errors])
+    }, [errors])
 
     //Axios post
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(JSON.stringify(errors));
-        if(passing){
+        if (passing) {
             add();
             alert(JSON.stringify(meeting));
             console.log(filters);
             alert("Submitted successfully");
             navigate("/overview"); //added
         }
-        else{
+        else {
             alert("Data are not in the right format!");
         }
     }
 
     function add() {
+        // alert(JSON.stringify(meeting));
         axios
-            .post("http://localhost:8080/appointment", JSON.stringify({    
-            visitor:
+            .post("http://localhost:8080/appointment", JSON.stringify({
+                visitor:
                 {
                     "firstName": meeting.firstName,
                     "lastName": meeting.lastName,
@@ -205,13 +248,14 @@ export default function CreateMeeting(props) {
                 },
                 dateTime: meeting.date,
                 licensePlate: meeting.licensePlate,
-                comesByCar: meeting.byCar
+                comesByCar: meeting.byCar,
+                endTime: meeting.endTime
             }), {
                 headers: { 'Content-Type': 'application/json',
                 'Authorization': 'Bearer '+AccountService.getToken() }
             })
     }
-    
+
     const handleChange = (event) => {
         if (event.target.name === "byCar") {
             const name = event.target.name;
@@ -225,125 +269,142 @@ export default function CreateMeeting(props) {
         }
     }
 
+
     return (
         <div>
             <div className="page-layout">
-            <Navbar showSecretaryBoard={props.showSecretaryBoard} showAdminBoard={props.showAdminBoard} isAuth={props.isAuth}/>
+                <Navbar showSecretaryBoard={props.showSecretaryBoard} showAdminBoard={props.showAdminBoard} isAuth={props.isAuth}/>
                 <div className="page-container">
-                <h2>Secretary</h2> 
-                <div className="overview">
-                <h3>Create appointment</h3>   
-                <div className="create-meeting">
-                        <div className="create-meeting-divider">
-                            <hr />
-                            <p> Employee </p>
-                            <hr />
-                        </div>
-                        <span>Appointment with
-                            <input
-                                onChange={textChangedName}
-                                type="text"
-                                placeholder="Employee's last name"
-                                required={true}
-                            ></input>
-                        </span>
-                        <div id="dropdown" className="create-meeting-employee-dropdown">
-                            {employees.map((employeeSearched, i) => {
-                                return (
-                                    <div key={i} className="create-meeting-employee-dropdown-individual">
-                                        <p>{employeeSearched.email}</p>
-                                        <p>{employeeSearched.firstName} {employeeSearched.lastName}</p>
-                                        <button className="submit-btn" onClick={() => selectEmployee(employeeSearched)}>Select</button>
-                                    </div>
-                                )
-                            })}
-                        </div>
-                        <span>Email<input
-                            type="email"
-                            disabled={true}
-                            value={meeting.employeesEmail}
-                            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-                            placeholder="No employee selected"
-                            required={true}
-                        /></span>
-                        <span>Date
-                            <DatePicker
-                                inline
-                                type="date"
-                                dateFormat="yyyy/MM/dd"
-                                selected={startDate}
-                                highlightDates={datesExpectedValues}
-                                includeDates={datesExpectedValues}
-                                onChange={(date) => { setMeeting(values => ({ ...values, dateForFiltering: moment(date).format("YYYY-MM-DDTkk:mm").split('T')[0] })); setStartDate(date); setFilters(params => ({ ...params, year: moment(date).format("YYYY"), month: moment(date).format("MM"), day: moment(date).format("DD") })) }}
-                            />
-                        </span>
-                        <div className="available-meetings-container">
-                            {availableTimeSlots.map(
-                                (availableTimeSlot, j) => {
-                                    return (
-                                        <div className="available-meeting" key={j}>
-                                            <h2>{availableTimeSlot}</h2>
-                                            <button className="submit-btn" onClick={() => pickAvailableMeeting(availableTimeSlot)}>Select</button>
-                                        </div>
-                                    )
-                                }
-                            )
-                            }
-                        </div>
-                        <span>Selected date and time for meeting<input type="dateTime-local" value={meeting.date} disabled={true} /></span>
-                        <form>
+                    <h2>Secretary</h2>
+                    <div className="overview">
+                        <h3>Create appointment</h3>
+                        <div className="create-meeting">
                             <div className="create-meeting-divider">
                                 <hr />
-                                <p> Visitor </p>
+                                <p> Employee </p>
                                 <hr />
                             </div>
-                            <span>First name<input
-                                placeholder="First name"
-                                type="text"
-                                name="firstName"
-                                value={meeting.firstName || ""}
-                                onChange={handleChange}
-                                required={true}
-                            /></span>
-                            <span>Last name<input
-                                placeholder="Last name"
-                                type="text"
-                                name="lastName"
-                                value={meeting.lastName || ""}
-                                onChange={handleChange}
-                                required={true}
-                            /></span>
-                            <span>Phone number<input
-                                placeholder="Phone number"
-                                type="text"
-                                name="phone"
-                                value={meeting.phone || ""}
-                                onChange={handleChange}
-                                required={true}
-                            /></span>{errors.phoneNumber && <span id="err">{errors.phoneNumber}</span>}
+                            <span>Appointment with
+                                <input
+                                    onChange={textChangedName}
+                                    type="text"
+                                    placeholder="Employee's last name"
+                                    required={true}
+                                ></input>
+                            </span>
+                            <div id="dropdown" className="create-meeting-employee-dropdown">
+                                {employees.map((employeeSearched, i) => {
+                                    return (
+                                        <div key={i} className="create-meeting-employee-dropdown-individual">
+                                            <p>{employeeSearched.email}</p>
+                                            <p>{employeeSearched.firstName} {employeeSearched.lastName}</p>
+                                            <button className="submit-btn" onClick={() => selectEmployee(employeeSearched)}>Select</button>
+                                        </div>
+                                    )
+                                })}
+                            </div>
                             <span>Email<input
-                                placeholder="Email"
                                 type="email"
-                                name="email"
-                                value={meeting.email || ""}
-                                onChange={handleChange}
+                                disabled={true}
+                                value={meeting.employeesEmail}
+                                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                                placeholder="No employee selected"
                                 required={true}
-                            />
-                            </span>{errors.email && <span id="err">{errors.email}</span>}
-                            <span>By car<input type="checkbox" name="byCar"
-                                value={meeting.byCar || checked}
-                                onChange={handleChange} onClick={handleClick} checked={checked} />{checked && (<input placeholder="License plate" type="text" name="licensePlate"
-                                    value={meeting.licensePlate || ""}
-                                    onChange={handleChange} />)}</span>{errors.licensePlate && <span id="err">{errors.licensePlate}</span>}
-                            <button onClick={e => handleSubmit(e)} type="submit">Submit</button>
-                        </form>
+                            /></span>
+                            <span>Date
+                                <DatePicker
+                                    inline
+                                    type="date"
+                                    dateFormat="yyyy/MM/dd"
+                                    selected={startDate}
+                                    highlightDates={datesExpectedValues}
+                                    includeDates={datesExpectedValues}
+                                    onChange={(date) => { setMeeting(values => ({ ...values, dateForFiltering: moment(date).format("YYYY-MM-DDTkk:mm").split('T')[0] })); setStartDate(date); setFilters(params => ({ ...params, year: moment(date).format("YYYY"), month: moment(date).format("MM"), day: moment(date).format("DD") })) }}
+                                />
+                            </span>
+                            <span>
+                                Pick the start time:
+                                <select value={selected} onChange={(e) => {setSelected(e.target.value); pickAvailableMeeting(e.target.value); }}>
+                                {availableTimeSlots.map(
+                                    (availableTimeSlot, j) => {
+                                        return (
+                                                <option key={j} value={availableTimeSlot}>{availableTimeSlot.substring(0, 5)}</option>
+                                        )
+                                    }
+                                )
+                                }
+                                </select>
+                            </span>
+                            <span>
+                                Pick the end time:
+                                <select value={selectedEndTime} onChange={(e) => pickEndTime(e.target.value)}>
+                                {availableEndTimes.map(
+                                    (availableEndTime, j) => {
+                                        return (
+                                                <option key={j} value={availableEndTime}>{availableEndTime.substring(0, 5)}</option>
+                                        )
+                                    }
+                                )
+                                }
+                                </select>
+                            </span>
+                            
+                            <span>Selected date and time for meeting<input type="dateTime-local" value={meeting.date} disabled={true} /></span>
+                            <form>
+                                <div className="create-meeting-divider">
+                                    <hr />
+                                    <p> Visitor </p>
+                                    <hr />
+                                </div>
+                                <span>First name<input
+                                    placeholder="First name"
+                                    type="text"
+                                    name="firstName"
+                                    value={meeting.firstName || ""}
+                                    onChange={handleChange}
+                                    required={true}
+                                /></span>
+                                <span>Last name<input
+                                    placeholder="Last name"
+                                    type="text"
+                                    name="lastName"
+                                    value={meeting.lastName || ""}
+                                    onChange={handleChange}
+                                    required={true}
+                                /></span>
+                                <span>Phone number<input
+                                    placeholder="Phone number"
+                                    type="text"
+                                    name="phone"
+                                    value={meeting.phone || ""}
+                                    onChange={handleChange}
+                                    required={true}
+                                /></span>{errors.phoneNumber && <span id="err">{errors.phoneNumber}</span>}
+                                <span>Email<input
+                                    placeholder="Email"
+                                    type="email"
+                                    name="email"
+                                    value={meeting.email || ""}
+                                    onChange={handleChange}
+                                    required={true}
+                                />
+                                </span>{errors.email && <span id="err">{errors.email}</span>}
+                                <span>By car<input type="checkbox" name="byCar"
+                                    value={meeting.byCar || checked}
+                                    onChange={handleChange} onClick={handleClick} checked={checked} />{checked && (<input placeholder="License plate" type="text" name="licensePlate"
+                                        value={meeting.licensePlate || ""}
+                                        onChange={handleChange} />)}</span>{errors.licensePlate && <span id="err">{errors.licensePlate}</span>}
+                                <button onClick={e => handleSubmit(e)} type="submit">Submit</button>
+                            </form>
+                        </div>
                     </div>
-                </div>
-                    
+
                 </div>
             </div>
         </div>
     )
 }
+
+
 
 

@@ -19,3 +19,9 @@ _
 /sioux-webapp-group4/src/services/auth-header.js,8\1\81bd290420b872e30ae3ce8d70eea4c28df9b72a
 Y
 )sioux-webapp-group4/src/pages/Overview.js,6\9\69835173fe0aac6073d0e9eec392a773408f7aca
+\
+,sioux-webapp-group4/src/pages/EditMeeting.js,a\a\aa53831934c2c5810f209c742cf2c3a7209614fb
+Z
+*sioux-webapp-group4/src/pages/LoginPage.js,0\9\09ac515450abf0af9ce68355aa34553caad84753
+[
++sioux-webapp-group4/src/services/Service.js,8\c\8cd636cc80306e89521344e5d6830f748b8512df
